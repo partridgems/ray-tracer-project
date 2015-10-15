@@ -32,8 +32,9 @@ public class RayTracer3D {
 			m = hit.obj.insideMat;
 			hit.normal = hit.normal.scale(-1d); // flip the normal when the ray
 												// hits on the inside
-		} else
+		} else {
 			m = hit.obj.outsideMat;
+		}
 
 		// calculate the initial color of the pixel by setting it to the
 		// emissive color
@@ -49,8 +50,9 @@ public class RayTracer3D {
 		// calculate its contribution to the pixel color and add it to the
 		// pixelcolor
 		for (int k = 0; k < s.numLights; k++) {
-			if (isObscured(s.light[k], hit.hitPoint, hit.obj, s.objs))
-				continue;
+//			if (isObscured(s.light[k], hit.hitPoint, hit.obj, s.objs)) {
+//				continue;
+//			}
 
 			Color3D localColor = calcColorForLight(r, hit.normal, hit.hitPoint,
 					m, s.light[k]);
@@ -82,7 +84,7 @@ public class RayTracer3D {
 			pixelColor = pixelColor.averageIn(reflectColor, m.reflect);
 		}
 
-		return (pixelColor);
+		return pixelColor;
 	}
 
 	/**
