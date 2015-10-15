@@ -57,6 +57,7 @@ public class RayTracer3D {
 			pixelColor = pixelColor.add(localColor);
 		}
 
+
 		// finally, calculate the texture color
 		Color3D textureColor = m.texture.getColor(hit.tc);
 		// and average it with the pixel color using mat.texWeight
@@ -80,6 +81,10 @@ public class RayTracer3D {
 
 			pixelColor = pixelColor.averageIn(reflectColor, m.reflect);
 		}
+
+        if (depth == 15) {
+            System.out.println("Pixel color = " + pixelColor);
+        }
 
 		return (pixelColor);
 	}
@@ -156,12 +161,12 @@ public class RayTracer3D {
 
 		// calculate the local diffuse pixel color contribution
 		Color3D localDiffuse = calculateDiffuse(n, m.diffuse, light.diffuse,
-				lightVec);
+                lightVec);
 
 		// calculate the local specular pixel color contribution
 		// which requires the vector from the eye to the intersection point
 		Color3D localSpecular = calculateSpecular(r, n, p, m.specular,
-				m.hardness, light.specular, lightVec);
+                m.hardness, light.specular, lightVec);
 
 		// now combine all of the local colors (ambient, diffuse, specular)
 		Color3D localColor = localAmbient.add(localDiffuse).add(localSpecular);
@@ -186,6 +191,7 @@ public class RayTracer3D {
 			Color3D lightColor, Point3D lightVec) {
 		Color3D localDiffuse;
 		double diffuseIntensity = Light3D.diffuse(lightVec, n);
+        matColor = Color3D.WHITE;
 		localDiffuse = matColor.times(lightColor).scale(diffuseIntensity);
 		return localDiffuse;
 	}
@@ -246,6 +252,7 @@ public class RayTracer3D {
 					pixelColor = Color3D.BLACK;
 				} else {
 					pixelColor = computeColor(r1, s, s.depth); // compute its color
+                    System.out.println("After returned = " + pixelColor);
 				}
 												
 				s.camera.film.drawPixel(i, j, pixelColor.toColor()); // draw it
