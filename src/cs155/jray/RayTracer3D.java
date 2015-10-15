@@ -82,10 +82,6 @@ public class RayTracer3D {
 			pixelColor = pixelColor.averageIn(reflectColor, m.reflect);
 		}
 
-        if (depth == 15) {
-            System.out.println("Pixel color = " + pixelColor);
-        }
-
 		return (pixelColor);
 	}
 
@@ -252,7 +248,6 @@ public class RayTracer3D {
 					pixelColor = Color3D.BLACK;
 				} else {
 					pixelColor = computeColor(r1, s, s.depth); // compute its color
-                    System.out.println("After returned = " + pixelColor);
 				}
 												
 				s.camera.film.drawPixel(i, j, pixelColor.toColor()); // draw it
