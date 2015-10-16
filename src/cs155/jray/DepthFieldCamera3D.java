@@ -19,11 +19,11 @@ public class DepthFieldCamera3D extends Camera3D {
 
 	private double depth = 0; // Depth into the scene for the focal point. Uses the normalized coordinate system
 
-	public DepthFieldCamera3D(Film f) {
+	public DepthFieldCamera3D(Canvas3D f) {
 		this(f, Transform3D.IDENTITY);
 	}
 
-	public DepthFieldCamera3D(Film f, Transform3D tr) {
+	public DepthFieldCamera3D(Canvas3D f, Transform3D tr) {
 		super(f);
 		this.film = f;
 		this.transform = tr;

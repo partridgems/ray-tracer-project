@@ -32,7 +32,7 @@ public class Scene3D {
 																// color of the
 																// "sky"
 	/** this is the default camera **/
-	public Camera3D camera = new Camera3D(new Film(0,0));
+	public Camera3D camera;
 
 	public Scene3D() {
 	}

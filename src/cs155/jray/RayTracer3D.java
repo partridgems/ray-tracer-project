@@ -249,8 +249,6 @@ public class RayTracer3D {
 			tarray[tnum].start();
 		}
 		
-		System.out.println("All threads running.");
-
 		for (Thread t : tarray) {
 			try {
 				t.join();

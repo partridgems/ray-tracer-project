@@ -19,11 +19,11 @@ public class FisheyeCamera3D extends Camera3D {
 
 	private double fishEyeAngle = Math.PI; // Angle of view for the lens in radians (default, pi)
 
-	public FisheyeCamera3D(Film f) {
+	public FisheyeCamera3D(Canvas3D f) {
 		this(f, Transform3D.IDENTITY);
 	}
 
-	public FisheyeCamera3D(Film f, Transform3D tr) {
+	public FisheyeCamera3D(Canvas3D f, Transform3D tr) {
 		super(f);
 		this.film = f;
 		this.transform = tr;

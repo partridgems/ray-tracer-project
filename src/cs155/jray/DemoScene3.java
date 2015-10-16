@@ -28,55 +28,11 @@ public class DemoScene3 {
     public static void drawOnPNG() {
     	Scene3D scene = new Scene3D();
     	initScene(scene);
-    	PngCanvas3D mc = new PngCanvas3D(scene.camera.film, "DemoScene3_BlinnPhong.png");
     	RayTracer3D.drawScene(scene);
-    	mc.refresh();
+    	scene.camera.film.refresh();
     	System.out.println("\nDone.");
     }
-    
-    public static void drawOnGUI() {
-    	Scene3D scene = new Scene3D();
-    	 NewRayCanvas3D mc = new NewRayCanvas3D(scene,800,800);
-    	/*
-    	 * This is the preferred way to create a GUI.
-    	 * It avoid thread problems by creating the GUI 
-    	 * in the EventDispatch thread.
-    	 */
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                createAndShowGUI(mc); 
-            }
-        });
 
-		System.out.println("getting ready to draw scene");
-		try {
-			Thread.sleep(200L);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-        initScene(scene);
-
-		RayTracer3D.drawScene(scene);
-		
-
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {mc.refresh();}
-        });
-    }
-
-    /*
-     * here we create a window, add the canvas,
-     * set the window size and make it visible!
-     */
-    private static void createAndShowGUI(NewRayCanvas3D mc) {
-        
-        JFrame f = new JFrame("PA03 Demo");
-        
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-        f.add(mc);
-        f.setSize(800,800);
-        f.setVisible(true);
-    } 
 
 	private static void initScene(Scene3D scene){
 
@@ -127,12 +83,12 @@ public class DemoScene3 {
 		
 		cyl2.insideMat = mat1; // here we change the material on the inside of cylinder 2
 		
-		Film film = new Film(800,800);
+    	PngCanvas3D mc = new PngCanvas3D(800, 800, "DemoScene3_BlinnPhong.png");
 		Transform3D camTransf = new Transform3D();
 		// this transformation takes a few from above and to the right looking down at the cylinders
 		// comment it out to see the view from the origin..
 		camTransf = camTransf.translate(0,0,0).rotateY(20).rotateX(45).translate(0,0,60);
-		Camera3D cam = new Camera3D(film,camTransf);
+		Camera3D cam = new Camera3D(mc,camTransf);
 //		Camera3D cam = new FisheyeCamera3D(film, camTransf);
 //		scene.add(cyl1);
 		scene.add(cyl2);

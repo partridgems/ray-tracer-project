@@ -17,16 +17,16 @@ import java.awt.Color;
 public class Camera3D {
 
 	private Point3D origin = new Point3D(0d, 0d, 0d);
-	public Film film;
+	public Canvas3D film;
 	public Transform3D transform;
 
 	public double screenDist = -1d; // -1d default
 
-	public Camera3D(Film f) {
+	public Camera3D(Canvas3D f) {
 		this(f, Transform3D.IDENTITY);
 	}
 
-	public Camera3D(Film f, Transform3D tr) {
+	public Camera3D(Canvas3D f, Transform3D tr) {
 		this.film = f;
 		this.transform = tr;
 

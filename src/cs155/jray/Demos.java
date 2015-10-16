@@ -60,10 +60,10 @@ public class Demos {
 //		Light3D light2 = new Light3D(new Point3D(0, 100, 0), 0.3);
 
 
-		Film film = new Film(800, 800);
+		PngCanvas3D canvas = new PngCanvas3D(800, 800, "demo1.png");
 		Transform3D camTransf = new Transform3D();
 		camTransf = camTransf.translate(0, 10, 0).rotateY(-60).rotateX(2).translate(0, 0, 20);
-		Camera3D cam = new Camera3D(film, camTransf);
+		Camera3D cam = new Camera3D(canvas, camTransf);
 
         scene.add(cylinder);
         scene.add(sphere);
@@ -111,7 +111,7 @@ public class Demos {
 
 
 
-		Film film = new Film(800, 800);
+		PngCanvas3D canvas = new PngCanvas3D(800, 800, "demo2.png");
 		Transform3D camTransf;
 
 		// move the camera ...
@@ -121,7 +121,7 @@ public class Demos {
 				.rotateY(0)
 				.rotateX(25)
 				.translate(0, 0, 75);
-		Camera3D cam = new Camera3D(film, camTransf);
+		Camera3D cam = new Camera3D(canvas, camTransf);
 
 		
 		// move the cylinder
@@ -190,7 +190,7 @@ public class Demos {
 
 
 		int N = 800;
-		Film film = new Film(N,N);
+		PngCanvas3D canvas = new PngCanvas3D(N, N, "demo3.png");
 		Transform3D camTransf;
 
 		// move the camera ...
@@ -200,7 +200,7 @@ public class Demos {
 				.rotateY(-30)
 				.rotateX(15)
 				.translate(0, 0, 30);
-		Camera3D cam = new Camera3D(film, camTransf);
+		Camera3D cam = new Camera3D(canvas, camTransf);
 
 		//ObjReader r = new ObjReader("obj/cubesds.obj");
 		ObjReader r = new ObjReader("obj/cubesd.obj");
