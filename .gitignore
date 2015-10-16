@@ -16,3 +16,6 @@ hs_err_pid*
 
 # Os X
 *DS_Store
+
+# Images
+*.png
