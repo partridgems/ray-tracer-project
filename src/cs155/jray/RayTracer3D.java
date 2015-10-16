@@ -50,9 +50,9 @@ public class RayTracer3D {
 		// calculate its contribution to the pixel color and add it to the
 		// pixelcolor
 		for (int k = 0; k < s.numLights; k++) {
-//			if (isObscured(s.light[k], hit.hitPoint, hit.obj, s.objs)) {
-//				continue;
-//			}
+			if (isObscured(s.light[k], hit.hitPoint, hit.obj, s.objs)) {
+				continue;
+			}
 
 			Color3D localColor = calcColorForLight(r, hit.normal, hit.hitPoint,
 					m, s.light[k]);
