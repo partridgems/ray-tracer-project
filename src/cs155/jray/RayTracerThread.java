@@ -23,7 +23,7 @@ public class RayTracerThread implements Runnable{
 		// for each point...
 		for (int i = threadNum; i < scene.camera.film.width(); i+=RayTracer3D.THREAD_COUNT) {
 			
-			if (threadNum == 0 && i%100 == 0 && i > 0) {
+			if (i%100 == 0 && i > 0) {
 				System.out.print(" " + i);
 			}
 			for (int j = 0; j < scene.camera.film.height(); j++) {

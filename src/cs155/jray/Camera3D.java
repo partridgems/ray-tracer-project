@@ -20,7 +20,7 @@ public class Camera3D {
 	public Canvas3D film;
 	public Transform3D transform;
 
-	public double screenDist = -1d; // -1d default
+	public static final double SCREEN_DIST = -1d; // -1d default
 
 	public Camera3D(Canvas3D f) {
 		this(f, Transform3D.IDENTITY);
@@ -52,9 +52,9 @@ public class Camera3D {
 		int k = film.height() - j;
 		double xjitter = Math.random()-0.5;
 		double yjitter = Math.random()-0.5;
-		double u = 2 * (i + xjitter - film.width() / 2d) / film.height();
+		double u = 2 * (i + xjitter - film.width() / 2d) / film.width();
 		double v = 2 * (k + yjitter - film.height() / 2d) / film.height();
-		Ray3D r = new Ray3D(origin, new Point3D(u, v, screenDist));
+		Ray3D r = new Ray3D(origin, new Point3D(u, v, SCREEN_DIST));
 		return r.applyTransform(this.transform);
 	}
 

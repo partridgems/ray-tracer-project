@@ -14,9 +14,10 @@ public class Ray3D {
 
 	public Ray3D(Point3D p, Point3D d) {
 		this.p = p;
-		this.d = d; //.normalize();
+		this.d = d;
 		if (this.d != null) {
 			this.d.w = 0;
+			this.d = d.normalize();
 		}
 	}
 
