@@ -6,8 +6,8 @@ package cs155.jray;
 
 public class RayTracer3D {
 
-	public static final int THREAD_COUNT = 4;
-	private static final int OVERSAMPLES = 15;
+	public static final int THREAD_COUNT = 6;
+	private static final int OVERSAMPLES = 40;
 
 	/**
 	 * Compute the color of the pixel corresponding to the intersection of the

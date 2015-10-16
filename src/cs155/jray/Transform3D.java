@@ -67,7 +67,7 @@ public class Transform3D {
 
 	/**
 	 * generate the Transform3D corresponding to rotation theta degrees around
-	 * the x-axis
+	 * the z-axis
 	 * 
 	 * @param theta
 	 * @return
@@ -115,7 +115,7 @@ public class Transform3D {
 
 	/**
 	 * generate the Transform3D corresponding to rotation theta degrees around
-	 * the z-axis
+	 * the x-axis
 	 * 
 	 * @param theta
 	 * @return

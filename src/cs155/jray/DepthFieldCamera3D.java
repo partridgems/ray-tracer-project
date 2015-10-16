@@ -17,25 +17,25 @@ public class DepthFieldCamera3D extends Camera3D {
 
 	private Point3D origin = new Point3D(0d, 0d, 0d);
 
-	private double depth = 0; // Depth into the scene for the focal point. Uses the normalized coordinate system
+	private double depth; // Depth into the scene for the focal point. Uses the normalized coordinate system
+	private double aperture;
 
-	public DepthFieldCamera3D(Canvas3D f) {
-		this(f, Transform3D.IDENTITY);
+	public DepthFieldCamera3D(Canvas3D f, double depth, double aperture) {
+		this(f, Transform3D.IDENTITY, depth, aperture);
 	}
 
-	public DepthFieldCamera3D(Canvas3D f, Transform3D tr) {
+	public DepthFieldCamera3D(Canvas3D f, Transform3D tr, double depth, double aperture) {
 		super(f);
 		this.film = f;
 		this.transform = tr;
+		this.depth = depth;
+		this.aperture = aperture;
 	}
 
 	/**
 	 * Convert screen coordinates into a ray. Given doubles u,v which are both
-	 * between -1 and 1, this method returns then projects the corresponding ray 
-	 * through a hemisphere by finding spherical coordinates for the ray, 
-	 * which starts at the location of the camera and then passes through the 
-	 * virtual screen on the hemisphere of radius 1, at depth 1 unit if front of the camera 
-	 * and at position (u,v) relative to the center of that hemisphere.
+	 * between -1 and 1, this method then shoots a ray from a radius around the camera
+	 * out through u,v on the plane in the scene at the specified depth.
 	 **/
 	public Ray3D generateRay(int i, int j) {
 		/*
@@ -46,18 +46,35 @@ public class DepthFieldCamera3D extends Camera3D {
 		
 		// First, we calculate a normalized u,v coordinate as in the traditional lens.
 		int k = film.height() - j;
-//		 double xjitter = Math.random()-0.5; // Jitter is useful when performing oversampling,
-//		 double yjitter = Math.random()-0.5; // but oversampling is not currently implemented
-		double u = 2 * (i - film.width() / 2d) / film.height();
-		double v = 2 * (k - film.height() / 2d) / film.height();
+		double xjitter = Math.random()-0.5;
+		double yjitter = Math.random()-0.5;
+		double u = 2 * (i + xjitter - film.width() / 2d) / film.width();
+		double v = 2 * (k + yjitter - film.height() / 2d) / film.height();
 		
+		Ray3D r = new Ray3D(origin, new Point3D(u, v, SCREEN_DIST));
 		
-		// Finally convert those spherical coordinates into cartesian for creating the ray
-		// Note that the radius of our sphere is 1.0, not r as calculated above
-		Point3D direction = new Point3D(0, 0, 0);
+		double xblur = (Math.random() - 0.5)/aperture;
+		double yblur = (Math.random() - 0.5)/aperture;
+		Point3D focus = r.atTime(depth);
+		Point3D eye = origin.translate(yblur, xblur, 0);
+		Ray3D bluredRay = new Ray3D(eye, focus.subtract(eye));
 		
-		Ray3D ray = new Ray3D(origin, direction);
-		return ray.applyTransform(this.transform);
+//		// Distance from the camera out to where this ray intersects the focal plane
+//		double distanceToFocalPlane = this.depth/r.d.dot(new Point3D(0, 0, -1));
+//		
+//		// Translates the ray back to the origin(camera) to rotate it for the blur effect
+//		Transform3D backToCamera = Transform3D.translation(r.d.scale(-distanceToFocalPlane));
+//		Transform3D fwdFromCamera = Transform3D.translation(r.d.scale(distanceToFocalPlane));
+//		
+//		// Stochastically rotate this ray depending on distance to the focal plane
+//		double xRotate = Math.toDegrees(Math.atan( (Math.random()-.5)*aperture/depth ));
+//		double yRotate = Math.toDegrees(Math.atan( (Math.random()-.5)*aperture/depth ));
+//		Transform3D rotate = Transform3D.compose(Transform3D.rotationX(xRotate), Transform3D.rotationY(yRotate));
+//		
+//		// Now change the ray's direction to cause the blur
+//		Transform3D fullTransform = Transform3D.compose(Transform3D.compose(backToCamera, rotate), fwdFromCamera);
+//		r.d = fullTransform.applyTo(r.d);
+		
+		return bluredRay.applyTransform(this.transform);
 	}
-
 }
