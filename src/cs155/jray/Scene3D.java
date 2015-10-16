@@ -17,7 +17,7 @@ public class Scene3D {
 	public Light3D light[] = new Light3D[100];
 	public int numLights = 0;
 
-	public int depth = 2;
+	public int reflectionDepth = 2;
 
 	/**
 	 * this is the level and color of initial ambient light in the scene

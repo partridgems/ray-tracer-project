@@ -50,10 +50,10 @@ public class Camera3D {
 		 * base!
 		 */
 		int k = film.height() - j;
-		// double xjitter = Math.random()-0.5;
-		// double yjitter = Math.random()-0.5;
-		double u = 2 * (i - film.width() / 2d) / film.height();
-		double v = 2 * (k - film.height() / 2d) / film.height();
+		double xjitter = Math.random()-0.5;
+		double yjitter = Math.random()-0.5;
+		double u = 2 * (i + xjitter - film.width() / 2d) / film.height();
+		double v = 2 * (k + yjitter - film.height() / 2d) / film.height();
 		Ray3D r = new Ray3D(origin, new Point3D(u, v, screenDist));
 		return r.applyTransform(this.transform);
 	}

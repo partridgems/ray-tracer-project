@@ -28,7 +28,7 @@ public class DemoScene3 {
     public static void drawOnPNG() {
     	Scene3D scene = new Scene3D();
     	initScene(scene);
-    	PngCanvas3D mc = new PngCanvas3D(scene.camera.film, "DemoScene3_Phong.png");
+    	PngCanvas3D mc = new PngCanvas3D(scene.camera.film, "DemoScene3_BlinnPhong.png");
     	RayTracer3D.drawScene(scene);
     	mc.refresh();
     	System.out.println("\nDone.");
@@ -132,8 +132,8 @@ public class DemoScene3 {
 		// this transformation takes a few from above and to the right looking down at the cylinders
 		// comment it out to see the view from the origin..
 		camTransf = camTransf.translate(0,0,0).rotateY(20).rotateX(45).translate(0,0,60);
-//		Camera3D cam = new Camera3D(film,camTransf);
-		Camera3D cam = new FisheyeCamera3D(film, camTransf);
+		Camera3D cam = new Camera3D(film,camTransf);
+//		Camera3D cam = new FisheyeCamera3D(film, camTransf);
 //		scene.add(cyl1);
 		scene.add(cyl2);
 //		scene.add(cyl3);
