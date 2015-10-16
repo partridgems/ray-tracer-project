@@ -1,9 +1,5 @@
 package cs155.jray;
 
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-
-
 /**
  * This class draws cylinders and other objects.
  * In PA02 it is used to demonstrate Phong vs Blinn-Phong lighting

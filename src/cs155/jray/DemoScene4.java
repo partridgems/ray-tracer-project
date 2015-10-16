@@ -1,8 +1,5 @@
 package cs155.jray;
 
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-
 /**
  * This class tests out the methods in PA01
  * 
@@ -10,8 +7,6 @@ import javax.swing.SwingUtilities;
  * 
  */
 public class DemoScene4 {
-	private static Scene3D scene = new Scene3D();
-	static int N = 800;
 
 	/**
 	 * this creates a window to demo the Canvas3D object
