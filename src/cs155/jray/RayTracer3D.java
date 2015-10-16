@@ -6,6 +6,9 @@ package cs155.jray;
 
 public class RayTracer3D {
 
+	public static final int THREAD_COUNT = 4;
+	private static final int OVERSAMPLES = 15;
+
 	/**
 	 * Compute the color of the pixel corresponding to the intersection of the
 	 * ray r with the first object in the scene s
@@ -34,8 +37,9 @@ public class RayTracer3D {
 			m = hit.obj.insideMat;
 			hit.normal = hit.normal.scale(-1d); // flip the normal when the ray
 												// hits on the inside
-		} else
+		} else {
 			m = hit.obj.outsideMat;
+		}
 
 		// calculate the initial color of the pixel by setting it to the
 		// emissive color
@@ -51,8 +55,9 @@ public class RayTracer3D {
 		// calculate its contribution to the pixel color and add it to the
 		// pixelcolor
 		for (int k = 0; k < s.numLights; k++) {
-			if (isObscured(s.light[k], hit.hitPoint, hit.obj, s.objs))
+			if (isObscured(s.light[k], hit.hitPoint, hit.obj, s.objs)) {
 				continue;
+			}
 
 			Color3D localColor = calcColorForLight(r, hit.normal, hit.hitPoint,
 					m, s.light[k]);
@@ -84,7 +89,7 @@ public class RayTracer3D {
 			pixelColor = pixelColor.averageIn(reflectColor, m.reflect);
 		}
 
-		return (pixelColor);
+		return pixelColor;
 	}
 
 	/**
@@ -234,29 +239,25 @@ public class RayTracer3D {
 	 * that pixel - compute the color corresponding to that ray - draw that
 	 * color to the corresponding pixel on the film
 	 **/
-	public static void drawScene(Scene3D s) {
-		double h = s.camera.film.height(), w = s.camera.film.width();
+	public static void drawScene(Scene3D scene) {
+		double h = scene.camera.film.height(), w = scene.camera.film.width();
 		System.out.println("h= " + h + " w= " + w);
-		s.depth = 15;
+		scene.reflectionDepth = 15;
 
-		for (int i = 0; i < w; i++) {
-			if ((i % 100) == 0) // print a message every 100 columns
-				System.out.print(" " + i);
-
-			for (int j = 0; j < h; j++) {
-				Ray3D r1 = s.camera.generateRay(i, j); // generate a ray
-				Color3D pixelColor;
-				if (r1 == Ray3D.NOT_IN_SCENE) {  // This pixel is outside of the lens we are using
-					pixelColor = Color3D.BLACK;
-				} else {
-					pixelColor = computeColor(r1, s, s.depth); // compute its color
-				}
-												
-				s.camera.film.drawPixel(i, j, pixelColor.toColor()); // draw it
-																		// on
-																		// film
-			} // close for i
-		} // close for j
+		// Start up THEAD_COUNT threads to do rendering and join on them
+		Thread[] tarray = new Thread[THREAD_COUNT];
+		for (int tnum = 0; tnum < THREAD_COUNT; tnum++) {
+			tarray[tnum] = new Thread(new RayTracerThread(tnum, OVERSAMPLES, scene));
+			tarray[tnum].start();
+		}
+		
+		for (Thread t : tarray) {
+			try {
+				t.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	} // close drawScene
 
 	public static void main(String[] args) {

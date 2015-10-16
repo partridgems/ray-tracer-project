@@ -22,7 +22,8 @@ public class QuarticSurface extends Object3D {
         this.h = h;
         this.i = i;
         this.j = j;
-        this.insideMat = this.outsideMat = Material.defaultMat;
+        this.insideMat = this.outsideMat = new Material(Color3D.BLACK, Color3D.BLACK, 
+        		Color3D.WHITE.scale(0.5), Color3D.WHITE, 25);
     }
 
     @Override

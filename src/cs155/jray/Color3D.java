@@ -96,6 +96,14 @@ public class Color3D {
 	public Color3D averageIn(Color3D b, double w) {
 		return this.scale(1 - w).add(b.scale(w));
 	}
+	
+	public static Color3D averageSet(Color3D[] colors) {
+		Color3D avg = new Color3D(0, 0, 0);
+		for (Color3D c : colors) {
+			avg = avg.add(c);
+		}
+		return avg.scale(1.0/colors.length);
+	}
 
 	public String toString() {
 		return "c3d(" + red + "," + green + "," + blue + ")";

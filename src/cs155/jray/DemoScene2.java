@@ -1,8 +1,5 @@
 package cs155.jray;
 
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-
 /**
  * This class tests out the methods in PA01
  * 
@@ -10,57 +7,16 @@ import javax.swing.SwingUtilities;
  * 
  */
 public class DemoScene2 {
-	private static Scene3D scene = new Scene3D();
-	private static NewRayCanvas3D mc = new NewRayCanvas3D(scene, 800, 800);
 
-	/**
-	 * this creates a window to demo the Canvas3D object
-	 * 
-	 * @param args
-	 * @throws InterruptedException
-	 */
-	public static void main(String[] args) throws InterruptedException {
-		/*
-		 * This is the preferred way to create a GUI. It avoid thread problems
-		 * by creating the GUI in the EventDispatch thread.
-		 */
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				createAndShowGUI();
-			}
-		});
-
+	public static void main(String[] args) {
 		System.out.println("getting ready to draw scene");
-		Thread.sleep(200L);
 		Scene3D scene = initScene();
-
 		RayTracer3D.drawScene(scene);
-
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				mc.refresh();
-			}
-		});
-		// mc.refresh();
-		// mc.invalidate();
-//		System.out.println("drew a circle!");
-	}
-
-	/*
-	 * here we create a window, add the canvas, set the window size and make it
-	 * visible!
-	 */
-	private static void createAndShowGUI() {
-
-		JFrame f = new JFrame("PA03 Demo");
-
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.add(mc);
-		f.setSize(800, 800);
-		f.setVisible(true);
+		scene.camera.film.refresh();
 	}
 
 	private static Scene3D initScene() {
+		Scene3D scene = new Scene3D();
 
 		Material mat1 = new Material(new Color3D(0d, 0d, 0d), new Color3D(0d,
 				0d, 0d), new Color3D(1d, 1d, 1d), new Color3D(1d, 1d, 1d), 200);
@@ -108,14 +64,14 @@ public class DemoScene2 {
 		cyl2.insideMat = mat4; // here we change the material on the inside of
 								// cylinder 2
 
-		Film film = new Film(800, 800);
+		PngCanvas3D mc = new PngCanvas3D(800, 800, "DemoScene2.png");
 		Transform3D camTransf = new Transform3D();
 		// this transformation takes a few from above and to the right looking
 		// down at the cylinders
 		// comment it out to see the view from the origin..
 		camTransf = camTransf.translate(0, 0, -20).rotateY(-70).rotateX(60)
 				.translate(0, 0, 50);
-		Camera3D cam = new Camera3D(film, camTransf);
+		Camera3D cam = new Camera3D(mc, camTransf);
 		scene.add(cyl1);
 		scene.add(cyl2);
 		scene.add(sp2);

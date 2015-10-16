@@ -17,16 +17,16 @@ import java.awt.Color;
 public class Camera3D {
 
 	private Point3D origin = new Point3D(0d, 0d, 0d);
-	public Film film;
+	public Canvas3D film;
 	public Transform3D transform;
 
 	public double screenDist = -1d; // -1d default
 
-	public Camera3D(Film f) {
+	public Camera3D(Canvas3D f) {
 		this(f, Transform3D.IDENTITY);
 	}
 
-	public Camera3D(Film f, Transform3D tr) {
+	public Camera3D(Canvas3D f, Transform3D tr) {
 		this.film = f;
 		this.transform = tr;
 
@@ -50,10 +50,10 @@ public class Camera3D {
 		 * base!
 		 */
 		int k = film.height() - j;
-		// double xjitter = Math.random()-0.5;
-		// double yjitter = Math.random()-0.5;
-		double u = 2 * (i - film.width() / 2d) / film.height();
-		double v = 2 * (k - film.height() / 2d) / film.height();
+		double xjitter = Math.random()-0.5;
+		double yjitter = Math.random()-0.5;
+		double u = 2 * (i + xjitter - film.width() / 2d) / film.height();
+		double v = 2 * (k + yjitter - film.height() / 2d) / film.height();
 		Ray3D r = new Ray3D(origin, new Point3D(u, v, screenDist));
 		return r.applyTransform(this.transform);
 	}

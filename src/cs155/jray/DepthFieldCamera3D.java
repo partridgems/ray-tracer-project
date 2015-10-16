@@ -13,17 +13,17 @@ package cs155.jray;
  * object as measured in pixels.
  **/
 
-public class FisheyeCamera3D extends Camera3D {
+public class DepthFieldCamera3D extends Camera3D {
 
 	private Point3D origin = new Point3D(0d, 0d, 0d);
 
-	private double fishEyeAngle = Math.PI; // Angle of view for the lens in radians (default, pi)
+	private double depth = 0; // Depth into the scene for the focal point. Uses the normalized coordinate system
 
-	public FisheyeCamera3D(Canvas3D f) {
+	public DepthFieldCamera3D(Canvas3D f) {
 		this(f, Transform3D.IDENTITY);
 	}
 
-	public FisheyeCamera3D(Canvas3D f, Transform3D tr) {
+	public DepthFieldCamera3D(Canvas3D f, Transform3D tr) {
 		super(f);
 		this.film = f;
 		this.transform = tr;
@@ -51,19 +51,10 @@ public class FisheyeCamera3D extends Camera3D {
 		double u = 2 * (i - film.width() / 2d) / film.height();
 		double v = 2 * (k - film.height() / 2d) / film.height();
 		
-		// Next, find polar coordinates for u,v
-		double r = Math.sqrt(u*u + v*v);
-		if (r > 1) { // Reject points outside of the image
-			return Ray3D.NOT_IN_SCENE;
-		}
-		double theta = Math.atan2(v, u); // Theta is the angle from the x axis in the xz plane
-		
-		// Project polar coordinates down to spherical using the fisheye angle
-		double rho = r * this.fishEyeAngle / 2; // Rho is the angle from the y axis in the vertical plane rotated from xy by theta
 		
 		// Finally convert those spherical coordinates into cartesian for creating the ray
 		// Note that the radius of our sphere is 1.0, not r as calculated above
-		Point3D direction = new Point3D(Math.cos(theta)*Math.sin(rho), Math.sin(theta)*Math.sin(rho), -Math.cos(rho));
+		Point3D direction = new Point3D(0, 0, 0);
 		
 		Ray3D ray = new Ray3D(origin, direction);
 		return ray.applyTransform(this.transform);
