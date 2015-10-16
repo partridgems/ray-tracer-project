@@ -35,8 +35,7 @@ public class QuarticSurface extends Object3D {
         Point3D normal = findNormalAtPoint(hitPoint);
         // normal should face away from eye
         normal = ray.d.dot(normal) < 0 ? normal : normal.scale(-1);
-        normal = new Point3D(0, 0, 5);
-        return new RayHit(hitPoint, distance, normal, this, new TextureCoordinate(0, 0));
+        return new RayHit(hitPoint, distance, normal, this, new TextureCoordinate(100, 100));
     }
 
     /**

@@ -21,6 +21,8 @@ public class RayTracer3D {
 		if (hit == RayHit.NO_HIT)
 			return s.backgroundColor;
 
+        System.out.println(hit);
+
 		/*
 		 * if the ray hits the inside of the object (as determined by the
 		 * outward facing normal) then flip the normal to also point inward and
