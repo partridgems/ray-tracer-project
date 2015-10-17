@@ -13,29 +13,32 @@ public class DemoScene8 {
         RayTracer3D.drawScene(scene);
 
         scene.camera.film.refresh();
-        System.out.println("drew a sphere!");
     }
 
-    private static Scene3D initScene2() {
+    public static Scene3D initScene2() {
     	Scene3D scene = new Scene3D();
         Material mat1 = new Material(Color3D.BLACK, Color3D.BLACK, Color3D.WHITE, Color3D.WHITE, 200);
 
         // Sphere
-        QuarticSurface qs = new QuarticSurface(1, 1, 1, 0, 0, 0, 0, 0, 0, -1);
+        QuadricSurface qs = new QuadricSurface(.5, .3333, -.85, 0, 0, 0, 0, 0, 0, -1);
+        qs.setBounds(new Point3D(Integer.MIN_VALUE, Integer.MIN_VALUE, -1.5),
+                new Point3D(Integer.MAX_VALUE, Integer.MAX_VALUE, 1.5));
         TransformedObject3D transformed = new TransformedObject3D(qs);
-        transformed.setTransform(Transform3D.translation(0, 0, -5));
-        Sphere3D sp1 = new Sphere3D(new Point3D(3, 3, -5), 1.0, Material.defaultMat);
+        transformed.setTransform(new Transform3D().translate(0, 0, -5).rotateX(100d));
+        Sphere3D sp1 = new Sphere3D(new Point3D(0, 0, -1), 1.0, Material.defaultMat);
 
-        Light3D light1 = new Light3D(new Point3D(0, 0, 10), 1.0);
-        PngCanvas3D mc = new PngCanvas3D(800, 800, "DemoScene8.png");
+        Light3D light1 = new Light3D(new Point3D(5, 5, 10), 1.0);
+        PngCanvas3D mc = new PngCanvas3D(400, 400, "DemoScene8.png");
 
         // Uncomment one camera to choose which one is active
         Camera3D cam = new Camera3D(mc);
-        cam.apply(Transform3D.translation(0, 0, 5));
+        // cam.apply(new Transform3D().translate(0, 0, 5));
+        //cam.apply(new Transform3D().rotateY(45d).rotateX(90d).rotateZ(90d)
+        //       .translate(0d, 5d, 10d));
 
 //        scene.add(transformed);
 //        scene.add(sp1);
-        scene.add(qs);
+        scene.add(transformed);
         scene.add(light1);
         scene.add(cam);
         return scene;

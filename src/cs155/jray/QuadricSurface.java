@@ -1,17 +1,50 @@
 package cs155.jray;
 
+import java.util.Optional;
+
 /**
  * Represents an arbitrary quartic surface. Techniques for finding ray intersection and normal
  * are borrowed from http://euclid.nmu.edu/~bpeterso/CS446-Handouts/Notes/CS446_Note_7.pdf
  *
  * Created by kahliloppenheimer on 10/15/15.
  */
-public class QuarticSurface extends Object3D {
+public class QuadricSurface extends Object3D {
     // coefficients of a general Quartic surface given the general form:
     // ax2 + by2 + cz2 + dyz + exz + fxy + gx + hy + iz + j = 0
     private final double a, b, c, d, e, f, g, h, i, j;
+    // Optional min/max bounds for surface
+    private Optional<Point3D> minBounds;
+    private Optional<Point3D> maxBounds;
 
-    public QuarticSurface(double a, double b, double c, double d, double e, double f, double g, double h, double i, double j) {
+    /**
+     * Used for unit-testing / debugging
+     * @param args
+     */
+    public static void main(String[] args) {
+        Scene3D scene = DemoScene8.initScene2();
+        for (int i = 0; i < scene.camera.film.width(); i+=1) {
+            for (int j = 0; j < scene.camera.film.height(); j++) {
+                Ray3D r1 = scene.camera.generateRay(i, j); // generate a ray
+                // Expected sphere
+                QuadricSurface expected = new QuadricSurface(1, 1, 1, 0, 0, 0, 0, 0, 0, -1);
+                // Observed sphere
+                Sphere3D actual = new Sphere3D(new Point3D(0, 0, 0), 1.0, Material.defaultMat);
+                if (r1 == Ray3D.NOT_IN_SCENE) {  // This pixel is outside of the lens we are using (used in FishEye)
+
+                } else {
+                    RayHit rh = actual.rayIntersect(r1);
+                    if (rh != RayHit.NO_HIT) {
+                        RayHit rh2 = expected.rayIntersect(r1);
+                        System.out.println("observed = " + rh);
+                        System.out.println("expected = " + expected.rayIntersect(r1));
+                        System.out.println();
+                    }
+                }
+            }
+        } // End of painting points
+    }
+
+    public QuadricSurface(double a, double b, double c, double d, double e, double f, double g, double h, double i, double j) {
         this.a = a;
         this.b = b;
         this.c = c;
@@ -24,20 +57,22 @@ public class QuarticSurface extends Object3D {
         this.j = j;
         this.insideMat = this.outsideMat = new Material(Color3D.BLACK, Color3D.BLACK, 
         		Color3D.WHITE.scale(0.5), Color3D.WHITE, 25);
+        this.minBounds = this.maxBounds = Optional.empty();
     }
+
 
     @Override
     public RayHit rayIntersect(Ray3D ray) {
+        // Next check if ray hits this quadric
         Point3D hitPoint = findHitPoint(ray);
-        if(hitPoint == null) {
+        if (hitPoint == null || !isWithinBounds(hitPoint)) {
             return RayHit.NO_HIT;
         }
         double distance = hitPoint.subtract(ray.p).length();
         Point3D normal = findNormalAtPoint(hitPoint);
-        // normal should face away from eye
-        normal = ray.d.dot(normal) < 0 ? normal : normal.scale(-1);
-        return new RayHit(hitPoint, distance, normal, this, new TextureCoordinate(100, 100));
+        return new RayHit(hitPoint, distance, normal, this, new TextureCoordinate(0, 0));
     }
+
 
     /**
      * Returns the vector normal to the surface at a give point
@@ -86,8 +121,8 @@ public class QuarticSurface extends Object3D {
         // Find intersection time
         double time = -1;
         if (discriminant >= 0) {
-            double t1 = (-b - Math.sqrt(discriminant)) / (2 * a);
-            double t2 = (-b + Math.sqrt(discriminant)) / (2 * a);
+            double t1 = (-B - Math.sqrt(discriminant)) / (2 * A);
+            double t2 = (-B + Math.sqrt(discriminant)) / (2 * A);
             if (t1 > 0 && t2 > 0) {
                 time = Math.min(t1, t2);
             } else if (t1 > 0) {
@@ -102,6 +137,42 @@ public class QuarticSurface extends Object3D {
             return new Point3D(P.x + time * D.x, P.y + time * D.y, P.z + time * D.z);
         }
         return null;
+    }
+
+    /**
+     * Sets the min x, y, z bounds of this surface to be each of the values of minBounds and
+     * the max x, y, z bounds of this surface to be each of the values of maxBounds
+     *
+     * @param minBounds
+     * @param maxBounds
+     */
+    public void setBounds(Point3D minBounds, Point3D maxBounds) {
+        this.minBounds = Optional.of(minBounds);
+        this.maxBounds = Optional.of(maxBounds);
+    }
+
+    /**
+     * Returns true iff the given point is within the current min/max bounds of this surface
+     *
+     * @param point
+     * @return
+     */
+    private boolean isWithinBounds(Point3D point) {
+        // Check if point is above min bounds
+        if (minBounds.isPresent()) {
+            Point3D min = minBounds.get();
+            if (point.x < min.x || point.y < min.y || point.z < min.z) {
+                return false;
+            }
+        }
+        // Check if point is below max bounds
+        if (maxBounds.isPresent()) {
+            Point3D max = maxBounds.get();
+            if (point.x > max.x || point.y > max.y || point.z > max.z) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
