@@ -61,6 +61,13 @@ public class QuadricSurface extends Object3D {
     }
 
 
+    /**
+     * Returns the RayHit describing a collision with the given ray and this quadric
+     * surface.
+     *
+     * @param ray
+     * @return
+     */
     @Override
     public RayHit rayIntersect(Ray3D ray) {
         // Next check if ray hits this quadric
@@ -118,25 +125,22 @@ public class QuadricSurface extends Object3D {
 
         double discriminant = sq(B) - 4 * A * C;
 
-        // Find intersection time
-        double time = -1;
+        // Find intersection Point
+        Point3D intersection = null;
         if (discriminant >= 0) {
             double t1 = (-B - Math.sqrt(discriminant)) / (2 * A);
             double t2 = (-B + Math.sqrt(discriminant)) / (2 * A);
-            if (t1 > 0 && t2 > 0) {
-                time = Math.min(t1, t2);
-            } else if (t1 > 0) {
-                time = t1;
-            } else if (t2 > 0) {
-                time = t2;
+            Point3D p1 = ray.atTime(t1);
+            Point3D p2 = ray.atTime(t2);
+            if (t1 > 0 && t2 > 0 && isWithinBounds(p1) && isWithinBounds(p2)) {
+                intersection = t1 <= t2 ? p1 : p2;
+            } else if (t1 > 0 && isWithinBounds(p1)) {
+                intersection = p1;
+            } else if (t2 > 0 && isWithinBounds(p2)) {
+                intersection = p2;
             }
         }
-
-        // Return point if time is positive
-        if (time > 0) {
-            return new Point3D(P.x + time * D.x, P.y + time * D.y, P.z + time * D.z);
-        }
-        return null;
+        return intersection;
     }
 
     /**

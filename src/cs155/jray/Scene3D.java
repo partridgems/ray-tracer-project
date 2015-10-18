@@ -1,5 +1,7 @@
 package cs155.jray;
 
+import java.util.Arrays;
+
 /**
  * This represents a 3d scene that can be drawn on a Canvas3D object. It
  * consists of an array of lights and a group of objects It also has an ambient
@@ -41,8 +43,8 @@ public class Scene3D {
 		camera = x;
 	}
 
-	public void add(Object3D x) {
-		objs.add(x);
+	public void add(Object3D ... objs) {
+		this.objs.add(objs);
 	}
 
 	public void add(Light3D x) {
