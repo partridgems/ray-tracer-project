@@ -64,15 +64,15 @@ public class DemoScene9 {
 		
 //		Cylinder3D cyl1 = new Cylinder3D(new Point3D(1,-1,-15),new Point3D(0,1,0),3.0,15.0,mat4);
 		Cylinder3D cyl2 = new Cylinder3D(new Point3D(25, -5,-15),new Point3D(0,1,0),20.0,25.0,mat4);
-		Cylinder3D cyl3 = new Cylinder3D(new Point3D(-8, 30,40),new Point3D(0,1,0),5.0,10.0,mat1);
+		Cylinder3D cyl3 = new Cylinder3D(new Point3D(-13, 36,38),new Point3D(0,1,-.3),1.0,4.0,mat1);
 		Sphere3D sp2 = new Sphere3D(new Point3D(-15,5,-20),20.0,mat4);
 		Sphere3D sp3 = new Sphere3D(new Point3D(-15,50,-20),20.0,mat3);
 		Plane3D pl1 = new Plane3D(new Point3D(0,-1,0),new Point3D(0,1,0),mat1);
 		Plane3D pl2 = new Plane3D(new Point3D(-50,0,0),new Point3D(1,0,0.5),mat5);
 		
 		// create the lights
-		Light3D light1 = new Light3D(new Point3D(-10,20,15),.8);// this light comes from above on the left
-		Light3D light2 = new Light3D(new Point3D(30,15,55),.6); // this light is from way above the scene
+		Light3D light1 = new Light3D(new Point3D(-12,22,18),.8);// this light comes from above on the left
+		Light3D light2 = new Light3D(new Point3D(30,15,65),.6); // this light is from way above the scene
 //		Light3D light3 = new Light3D(new Point3D(0,2,-13),1.0); // this light is near the openings of both cylinders
 //		Light3D light4 = new Light3D(new Point3D(-2,13,-4),1.0); // this light is inside cylinder 1, toward the far end
 		
@@ -85,7 +85,7 @@ public class DemoScene9 {
 		camTransf = camTransf.translate(0,0,0).rotateY(20).rotateX(45).translate(0,0,60);
 //		Camera3D cam = new Camera3D(mc,camTransf);
 //		Camera3D cam = new FisheyeCamera3D(mc, camTransf);
-		Camera3D cam = new DepthFieldCamera3D(mc, camTransf, 4, 12);
+		Camera3D cam = new DepthFieldCamera3D(mc, camTransf, 54, 10);
 //		scene.add(cyl1);
 		scene.add(cyl2);
 		scene.add(cyl3);
