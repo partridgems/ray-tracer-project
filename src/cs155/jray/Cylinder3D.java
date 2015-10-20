@@ -25,7 +25,7 @@ public class Cylinder3D extends Object3D {
 		this.insideMat = this.outsideMat = m;
 	}
 
-	public RayHit rayIntersect(Ray3D r) {
+	protected RayHit rayIntersectObj(Ray3D r) {
 		Point3D P = r.p, D = r.d;
 		Point3D PC = P.subtract(center);
 		Point3D a = D.subtract(direction.scale(direction.dot(D)));

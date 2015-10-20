@@ -34,7 +34,6 @@ public class QuadricSurface extends Object3D {
                 } else {
                     RayHit rh = actual.rayIntersect(r1);
                     if (rh != RayHit.NO_HIT) {
-                        RayHit rh2 = expected.rayIntersect(r1);
                         System.out.println("observed = " + rh);
                         System.out.println("expected = " + expected.rayIntersect(r1));
                         System.out.println();
@@ -69,7 +68,7 @@ public class QuadricSurface extends Object3D {
      * @return
      */
     @Override
-    public RayHit rayIntersect(Ray3D ray) {
+    public RayHit rayIntersectObj(Ray3D ray) {
         // Next check if ray hits this quadric
         Point3D hitPoint = findHitPoint(ray);
         if (hitPoint == null || !isWithinBounds(hitPoint)) {
