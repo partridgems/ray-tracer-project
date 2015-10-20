@@ -24,7 +24,8 @@ public class Sphere3D extends Object3D {
 		this(new Point3D(centerX, centerY, centerZ), radius);
 	}
 
-	public RayHit rayIntersect(Ray3D r) {
+	@Override
+	protected RayHit rayIntersectObj(Ray3D r) {
 		Point3D P = r.p, D = r.d;
 		Point3D PC = P.subtract(center);
 		double t0 = -1, A = D.dot(D), B = 2 * D.dot(PC), C = PC.dot(PC)

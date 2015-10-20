@@ -125,16 +125,14 @@ public class Demos {
 
 		
 		// move the cylinder
-		TransformedObject3D cyl2a = new TransformedObject3D(cyl2);
-		  cyl2a.setTransform(Transform3D
+		  cyl2.setTransform(Transform3D
 				  .IDENTITY
 				  .rotateY(45)
 				  .scale(3, 1, 2)
 				  .rotateY(10));
 
 		  // transform the sphere
-		  TransformedObject3D sp2a = new TransformedObject3D(sp2);
-		  sp2a.setTransform(Transform3D
+		  sp2.setTransform(Transform3D
 				  .IDENTITY
 				  .translate(0,0,0)
 				  .rotateY(30)
@@ -144,8 +142,8 @@ public class Demos {
 				  .translate(0,0,0)
 				  );
 		  
-		  scene.add(cyl2a);
-		  scene.add(sp2a); 
+		  scene.add(cyl2);
+		  scene.add(sp2); 
 		  scene.add(pl1); 
 		  scene.add(light1);
 		  scene.add(light2);
@@ -206,14 +204,13 @@ public class Demos {
 		ObjReader r = new ObjReader("obj/cubesd.obj");
 		//ObjReader r = new ObjReader("obj/suzanne2.obj");
 			Group3D obj = r.toGroup3D();
-			TransformedObject3D objT = new TransformedObject3D(obj);
 		    obj.insideMat = obj.outsideMat = mat2;
 			obj.pushTextures();
-			objT.setTransform(Transform3D
+			obj.setTransform(Transform3D
 					.IDENTITY
 					.scale(10,10,10)
 					.translate(0,1,0));
-	      scene.add(objT);
+	      scene.add(obj);
 
 		  
 		  //scene.add(cyl2a);

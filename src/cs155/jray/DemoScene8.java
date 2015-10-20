@@ -17,7 +17,7 @@ public class DemoScene8 {
 
     public static Scene3D initScene2() {
     	Scene3D scene = new Scene3D();
-        Material mat1 = new Material(Color3D.BLACK, Color3D.BLACK, Color3D.WHITE, Color3D.WHITE, 200);
+//        Material mat1 = new Material(Color3D.BLACK, Color3D.BLACK, Color3D.WHITE, Color3D.WHITE, 200);
 
         // Sphere
         QuadricSurface q1 = new QuadricSurface(.5, .3, -.8, 0, 0, 0, 0, 0, 0, -1);
@@ -29,12 +29,9 @@ public class DemoScene8 {
                 new Point3D(Integer.MAX_VALUE, Integer.MAX_VALUE, 1.5));
         q3.setBounds(new Point3D(Integer.MIN_VALUE, Integer.MIN_VALUE, -1.5),
                      new Point3D(Integer.MAX_VALUE, Integer.MAX_VALUE, 1.5));
-        TransformedObject3D t1 = new TransformedObject3D(q1);
-        t1.setTransform(new Transform3D().translate(5, -5, -10).rotateX(60d));
-        TransformedObject3D t2 = new TransformedObject3D(q2);
-        t2.setTransform(new Transform3D().translate(-5, 5, -10).rotateX(-60d));
-        TransformedObject3D t3 = new TransformedObject3D(q3);
-        t3.setTransform(new Transform3D().translate(0, 0, -10).rotateX(60d));
+        q1.setTransform(new Transform3D().translate(5, -5, -10).rotateX(60d));
+        q2.setTransform(new Transform3D().translate(-5, 5, -10).rotateX(-60d));
+        q3.setTransform(new Transform3D().translate(0, 0, -10).rotateX(60d));
         Light3D light1 = new Light3D(new Point3D(5, 5, 10), 1.0);
         PngCanvas3D mc = new PngCanvas3D(400, 400, "DemoScene8.png");
 
@@ -46,9 +43,9 @@ public class DemoScene8 {
 
 //        scene.add(transformed);
 //        scene.add(sp1);
-        scene.add(t1);
-        scene.add(t2);
-        scene.add(t3);
+        scene.add(q1);
+        scene.add(q2);
+        scene.add(q3);
         scene.add(light1);
         scene.add(cam);
         return scene;

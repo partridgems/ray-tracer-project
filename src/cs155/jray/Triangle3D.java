@@ -55,7 +55,7 @@ public class Triangle3D extends Object3D {
 	 * and normal by interpolation using the Barycentric coordinates
 	 */
 	@Override
-	public RayHit rayIntersect(Ray3D ray) {
+	public RayHit rayIntersectObj(Ray3D ray) {
 		Point3D s = ray.p.subtract(p0);
 		Point3D s1 = ray.d.cross(e2);
 		Point3D s2 = s.cross(e1);

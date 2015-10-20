@@ -33,7 +33,7 @@ public class Plane3D extends Object3D {
 		return q.subtract(normal.scale(normal.dot(q)));
 	}
 
-	public RayHit rayIntersect(Ray3D r) {
+	public RayHit rayIntersectObj(Ray3D r) {
 		Point3D P = r.p, D = r.d;
 		Point3D PC = P.subtract(center);
 		double dn = normal.dot(D), cpn = normal.dot(PC) /*, t*/;
