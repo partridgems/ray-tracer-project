@@ -73,13 +73,14 @@ public class DemoScene3 {
 		
 		// create the lights
 		Light3D light1 = new Light3D(new Point3D(15,15,15),1.0);// this light comes from above on the left
+		light1.applyTrans(new Transform3D().translate(-5, 0, 0));
 //		Light3D light2 = new Light3D(new Point3D(2,90,-15),0.3); // this light is from way above the scene
 //		Light3D light3 = new Light3D(new Point3D(0,2,-13),1.0); // this light is near the openings of both cylinders
 //		Light3D light4 = new Light3D(new Point3D(-2,13,-4),1.0); // this light is inside cylinder 1, toward the far end
 		
 		cyl2.insideMat = mat1; // here we change the material on the inside of cylinder 2
 		
-    	PngCanvas3D mc = new PngCanvas3D(800, 800, "DemoScene3_BlinnPhong.png");
+    	PngCanvas3D mc = new PngCanvas3D(800, 800, "DemoScene3_BlinnPhong_moved.png");
 		Transform3D camTransf = new Transform3D();
 		// this transformation takes a few from above and to the right looking down at the cylinders
 		// comment it out to see the view from the origin..

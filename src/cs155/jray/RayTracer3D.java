@@ -120,7 +120,7 @@ public class RayTracer3D {
 	 */
 	private static boolean isObscured(Light3D light, Point3D point,
 			Object3D obj, Scene3D scene) {
-		Point3D lightVec = light.location.subtract(point);
+		Point3D lightVec = light.getLocation().subtract(point);
 		double distToLight = lightVec.length();
 		Point3D lightVecNorm = lightVec.normalize();
 		Point3D p2 = point.add(lightVecNorm.scale(0.01));
@@ -153,7 +153,7 @@ public class RayTracer3D {
 			Material m, Light3D light) {
 
 		// Find the normalized light vector
-		Point3D lightPos = light.location;
+		Point3D lightPos = light.getLocation();
 		Point3D lightVec = lightPos.subtract(p);
 		lightVec = lightVec.normalize(); // vector from point to the light
 

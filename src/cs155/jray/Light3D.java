@@ -14,7 +14,7 @@ public class Light3D {
 													 // false for Phong
 	
 	/** location of the light **/
-	public Point3D location = new Point3D(0d, 0d, 0d);
+	private Point3D location = new Point3D(0d, 0d, 0d);
 	private static Color3D dimGray = new Color3D(0.2, 0.2, 0.2);
 
 	/** intensity of the light **/
@@ -23,6 +23,8 @@ public class Light3D {
 	/** ambient, diffuse, and specular components of the light **/
 	public Color3D ambient = dimGray, diffuse = Color3D.WHITE,
 			specular = Color3D.WHITE;
+	
+	public Transform3D transform = Transform3D.IDENTITY;
 
 	/** attenuation coefficients: constant, linear, and quadratic **/
 	public double attC = 1.0, attL = 0.001, attQ = 0.00001;
@@ -49,6 +51,10 @@ public class Light3D {
 		this.diffuse = dif;
 		this.specular = sp;
 	}
+	
+	public Point3D getLocation() {
+		return transform.applyTo(location);
+	}
 
 	/** this returns the spotlight intensity which is 1.0 for all non-spotlights **/
 	public double spot(Point3D lookAt) {
@@ -62,11 +68,18 @@ public class Light3D {
 	public double attenuation(double length) {
 		return 1.0 / (attC + attL * length + attQ * length * length);
 	}
+	
+	public void setTransform(Transform3D t){
+		this.transform = t;
+	}
+	
+	public void applyTrans(Transform3D t){
+		transform = Transform3D.compose(transform, t);
+	}
 
 	/**
 	 * calculate the specular intensity of the light
 	 **/
-
 	public static double specular(Point3D lightVec, Point3D normal,
 			Point3D eyeVec, int hardness) {
 		if (blinnPhong) {
