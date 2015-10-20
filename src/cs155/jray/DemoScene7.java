@@ -12,7 +12,7 @@ public class DemoScene7 {
 
 		RayTracer3D.drawScene(scene);
 
-		scene.camera.film.refresh();
+		scene.getCamera().film.refresh();
 
 		System.out.println("drew a sphere!");
 	}

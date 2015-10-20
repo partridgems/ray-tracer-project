@@ -7,7 +7,7 @@ package cs155.jray;
 public class RayTracer3D {
 
 	public static final int THREAD_COUNT = 6;
-	private static final int OVERSAMPLES = 40;
+	private static final int OVERSAMPLES = 1;
 
 	/**
 	 * Compute the color of the pixel corresponding to the intersection of the
@@ -18,11 +18,11 @@ public class RayTracer3D {
 		/*
 		 * first we intersect the ray with the scene and get the RayHit object
 		 */
-		RayHit hit = s.objs.rayIntersect(r);
+		RayHit hit = s.firstIntersection(r);
 
 		// if the ray hits no object, return the background color
 		if (hit == RayHit.NO_HIT)
-			return s.backgroundColor;
+			return s.getBackgroundColor();
 
 		/*
 		 * if the ray hits the inside of the object (as determined by the
@@ -46,19 +46,19 @@ public class RayTracer3D {
 		// next calculate the ambient color of the pixel by multiplying
 		// and add it to the pixel color, ambient is independent of the lights
 
-		Color3D ambientColor = s.ambient.times(m.ambient);
+		Color3D ambientColor = s.getAmbient().times(m.ambient);
 		pixelColor = pixelColor.add(ambientColor);
 
 		// next, for each light which is not obscured at the hitPoint
 		// calculate its contribution to the pixel color and add it to the
 		// pixelcolor
-		for (int k = 0; k < s.numLights; k++) {
-			if (isObscured(s.light[k], hit.hitPoint, hit.obj, s.objs)) {
+		for (int k = 0; k < s.getLights().size(); k++) {
+			if (isObscured(s.getLights().get(k), hit.hitPoint, hit.obj, s)) {
 				continue;
 			}
 
 			Color3D localColor = calcColorForLight(r, hit.normal, hit.hitPoint,
-					m, s.light[k]);
+					m, s.getLights().get(k));
 			pixelColor = pixelColor.add(localColor);
 		}
 
@@ -115,17 +115,17 @@ public class RayTracer3D {
 	 * 
 	 * @param light
 	 * @param point
-	 * @param objs
+	 * @param scene
 	 * @return
 	 */
 	private static boolean isObscured(Light3D light, Point3D point,
-			Object3D obj, Group3D objs) {
+			Object3D obj, Scene3D scene) {
 		Point3D lightVec = light.location.subtract(point);
 		double distToLight = lightVec.length();
 		Point3D lightVecNorm = lightVec.normalize();
 		Point3D p2 = point.add(lightVecNorm.scale(0.01));
 		Ray3D r = new Ray3D(p2, lightVecNorm);
-		RayHit hit = objs.rayIntersect(r);
+		RayHit hit = scene.firstIntersection(r);
 		if (hit == RayHit.NO_HIT)
 			return false;
 		double distToObj = (hit.hitPoint.subtract(point)).length();
@@ -238,9 +238,9 @@ public class RayTracer3D {
 	 * color to the corresponding pixel on the film
 	 **/
 	public static void drawScene(Scene3D scene) {
-		double h = scene.camera.film.height(), w = scene.camera.film.width();
+		double h = scene.getCamera().film.height(), w = scene.getCamera().film.width();
 		System.out.println("h= " + h + " w= " + w);
-		scene.reflectionDepth = 15;
+		scene.setReflectionDepth(15);
 
 		// Start up THEAD_COUNT threads to do rendering and join on them
 		Thread[] tarray = new Thread[THREAD_COUNT];

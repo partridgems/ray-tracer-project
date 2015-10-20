@@ -12,7 +12,7 @@ public class DemoScene2 {
 		System.out.println("getting ready to draw scene");
 		Scene3D scene = initScene();
 		RayTracer3D.drawScene(scene);
-		scene.camera.film.refresh();
+		scene.getCamera().film.refresh();
 	}
 
 	private static Scene3D initScene() {
