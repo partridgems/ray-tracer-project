@@ -113,7 +113,7 @@ public class Triangle3D extends Object3D {
 		Ray3D r = new Ray3D(p, d);
 		RayHit rh = t1.rayIntersect(r);
 		System.out.println(rh);
-		Scene3D s = new Scene3D();
+		Scene3D s = new Scene3D("TriangleUnitTest");
 		Light3D l1 = new Light3D(p.add(p2));
 		// Plane3D pl1 = new Plane3D(p0, y);
 		s.add(t1);

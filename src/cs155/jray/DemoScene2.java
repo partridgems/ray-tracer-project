@@ -12,11 +12,10 @@ public class DemoScene2 {
 		System.out.println("getting ready to draw scene");
 		Scene3D scene = initScene();
 		RayTracer3D.drawScene(scene);
-		scene.getCamera().film.refresh();
 	}
 
 	private static Scene3D initScene() {
-		Scene3D scene = new Scene3D();
+		Scene3D scene = new Scene3D("DemoScene2");
 
 		Material mat1 = new Material(new Color3D(0d, 0d, 0d), new Color3D(0d,
 				0d, 0d), new Color3D(1d, 1d, 1d), new Color3D(1d, 1d, 1d), 200);
@@ -64,7 +63,7 @@ public class DemoScene2 {
 		cyl2.insideMat = mat4; // here we change the material on the inside of
 								// cylinder 2
 
-		PngCanvas3D mc = new PngCanvas3D(800, 800, "DemoScene2.png");
+		PngCanvas3D mc = new PngCanvas3D(800, 800);
 		Transform3D camTransf = new Transform3D();
 		// this transformation takes a few from above and to the right looking
 		// down at the cylinders

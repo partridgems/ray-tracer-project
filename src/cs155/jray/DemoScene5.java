@@ -8,9 +8,8 @@ public class DemoScene5 {
     
 
     public static void main(String[] args) {
-    	Scene3D scene = new Scene3D(); initScene(scene);
+    	Scene3D scene = new Scene3D("DemoScene5"); initScene(scene);
     	RayTracer3D.drawScene(scene);
-    	scene.getCamera().film.refresh();
     	System.out.println("\nDone.");
     }
 
@@ -55,7 +54,7 @@ public class DemoScene5 {
 		cyl3.insideMat = mat2; // here we change the material on the inside of cylinder 3
 		cyl2.insideMat = mat1;
 		
-    	PngCanvas3D mc = new PngCanvas3D(800, 800, "DemoScene5forward.png");
+    	PngCanvas3D mc = new PngCanvas3D(800, 800);
 		Transform3D camTransf = new Transform3D();
 		// this transformation takes a few from above and to the right looking down at the cylinders
 		// comment it out to see the view from the origin..

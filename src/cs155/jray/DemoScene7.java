@@ -12,14 +12,12 @@ public class DemoScene7 {
 
 		RayTracer3D.drawScene(scene);
 
-		scene.getCamera().film.refresh();
-
 		System.out.println("drew a sphere!");
 	}
 
 
 	private static Scene3D initScene2() {
-		Scene3D scene = new Scene3D();
+		Scene3D scene = new Scene3D("DemoScene7");
 
 		Material mat1 = new Material(Color3D.BLACK, Color3D.BLACK, Color3D.WHITE, new Color3D(0d, 1d, 0d), 200);
 
@@ -28,7 +26,7 @@ public class DemoScene7 {
 		Sphere3D sp3 = new Sphere3D(new Point3D(-5, 5, -5), 2.0, mat1);
 		Sphere3D sp4 = new Sphere3D(new Point3D(-5, -5, -5), 2.0, mat1);
 		Light3D light1 = new Light3D(new Point3D(0, 5, -2), 1.0);
-		PngCanvas3D mc = new PngCanvas3D(800, 800, "DemoScene7.png");
+		PngCanvas3D mc = new PngCanvas3D(800, 800);
 		
 		// Uncomment one camera to choose which one is active
 //		Camera3D cam = new Camera3D(mc);

@@ -1,7 +1,5 @@
 package cs155.jray;
 
-import javafx.scene.effect.Light;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -24,14 +22,20 @@ public class Scene3D {
 	private Color3D backgroundColor;
 	private Camera3D camera;
 	private int sceneNum;
+	private String name;
 
-	public Scene3D() {
+	private Scene3D() {
         setObjs(new ArrayList<Object3D>());
         setLights(new ArrayList<>());
         setReflectionDepth(2);
         setAmbient(new Color3D(0d, 0d, 0.4d));
         setBackgroundColor(new Color3D(0d, 0d, 0.4d));
         setSceneNum(1);
+	}
+	
+	public Scene3D(String name) {
+		this();
+		this.name = name;
 	}
 
 	public void add(Camera3D x) {
@@ -79,6 +83,15 @@ public class Scene3D {
     public List<Object3D> getObjs() {
         return objs;
     }
+    
+    /**
+     * Causes the image on the camera to be stored to the named file
+     * supplied when the scene was created or updated by the RayTracer
+     * for animated images.
+     */
+    public void save() {
+    	this.camera.film.refresh(this.name);
+    }
 
     /** Here we create the scene elements as instance variables **/
     public int getNumObj() {
@@ -116,6 +129,10 @@ public class Scene3D {
     public Camera3D getCamera() {
         return camera;
     }
+    
+    public String getName() {
+    	return this.name;
+    }
 
     public int getSceneNum() {
         return sceneNum;
@@ -151,5 +168,9 @@ public class Scene3D {
 
     public void setCamera(Camera3D camera) {
         this.camera = camera;
+    }
+    
+    public void setName(String name) {
+    	this.name = name;
     }
 }

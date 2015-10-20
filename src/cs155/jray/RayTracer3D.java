@@ -1,5 +1,9 @@
 package cs155.jray;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 /**
  * This consists of static methods for drawing a scene on a canvas.
  **/
@@ -256,7 +260,24 @@ public class RayTracer3D {
 				e.printStackTrace();
 			}
 		}
+		scene.save();
 	} // close drawScene
+	
+	/**
+	 * Draw a series of scenes, numbering them and saving them in a folder
+	 * @throws IOException 
+	 */
+	public static void drawSceneSeries(Scene3D scene, int numScenes) throws IOException {
+		// Get the scene name for the folder
+		String sceneName = scene.getName();
+		
+		Files.createDirectory(Paths.get(sceneName));
+		
+		for (; scene.getSceneNum() <= numScenes; scene.incremementSceneNum()) {
+			scene.setName(sceneName + "/" + scene.getSceneNum());
+			drawScene(scene);
+		}
+	}
 
 	public static void main(String[] args) {
 		RayHit h = new RayHit(null, 0, null, null, null);

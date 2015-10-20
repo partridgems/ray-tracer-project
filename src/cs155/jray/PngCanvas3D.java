@@ -10,7 +10,6 @@ import javax.imageio.ImageIO;
 public class PngCanvas3D implements Canvas3D {
 	
 	private BufferedImage bufferedImage;
-	private File file;
 
 	
 	/**
@@ -22,9 +21,8 @@ public class PngCanvas3D implements Canvas3D {
 	 * @param height Height in pixels of the image
 	 * @param filename File to write output
 	 */
-	public PngCanvas3D(int width, int height, String filename) {
+	public PngCanvas3D(int width, int height) {
 		this.bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		this.file = new File(filename);
 	}
 
 	@Override
@@ -43,8 +41,9 @@ public class PngCanvas3D implements Canvas3D {
 	}
 
 	@Override
-	public void refresh() {
+	public void refresh(String name) {
 		try {
+			File file = new File(name + ".png");
 			ImageIO.write(bufferedImage, "PNG", file);
 		} catch (IOException e) {
 			e.printStackTrace();

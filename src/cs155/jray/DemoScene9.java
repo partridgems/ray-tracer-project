@@ -1,5 +1,7 @@
 package cs155.jray;
 
+import java.io.IOException;
+
 /**
  * This class draws cylinders and other objects.
  * In PA03 it is used to demonstrate the depth of field camera.
@@ -21,10 +23,13 @@ public class DemoScene9 {
      * This method uses the alternate PngCanvas3D to draw the scene in a png file for better portability.
      */
     public static void drawOnPNG() {
-    	Scene3D scene = new Scene3D();
+    	Scene3D scene = new Scene3D("DemoScene9");
     	initScene(scene);
-    	RayTracer3D.drawScene(scene);
-    	scene.getCamera().film.refresh();
+    	try {
+			RayTracer3D.drawSceneSeries(scene, 5);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     	System.out.println("\nDone.");
     }
 
@@ -78,7 +83,7 @@ public class DemoScene9 {
 		
 		cyl2.insideMat = mat1; // here we change the material on the inside of cylinder 2
 		
-    	PngCanvas3D mc = new PngCanvas3D(800, 800, "DemoScene9.png");
+    	PngCanvas3D mc = new PngCanvas3D(800, 800);
 		Transform3D camTransf = new Transform3D();
 		// this transformation takes a few from above and to the right looking down at the cylinders
 		// comment it out to see the view from the origin..

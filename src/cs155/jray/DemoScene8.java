@@ -11,12 +11,10 @@ public class DemoScene8 {
         System.out.println("getting ready to draw scene");
         Scene3D scene = initScene2();
         RayTracer3D.drawScene(scene);
-
-        scene.getCamera().film.refresh();
     }
 
     public static Scene3D initScene2() {
-    	Scene3D scene = new Scene3D();
+    	Scene3D scene = new Scene3D("DemoScene8");
 //        Material mat1 = new Material(Color3D.BLACK, Color3D.BLACK, Color3D.WHITE, Color3D.WHITE, 200);
 
         // Sphere
@@ -33,7 +31,7 @@ public class DemoScene8 {
         q2.setTransform(new Transform3D().translate(-5, 5, -10).rotateX(-60d));
         q3.setTransform(new Transform3D().translate(0, 0, -10).rotateX(60d));
         Light3D light1 = new Light3D(new Point3D(5, 5, 10), 1.0);
-        PngCanvas3D mc = new PngCanvas3D(400, 400, "DemoScene8.png");
+        PngCanvas3D mc = new PngCanvas3D(400, 400);
 
         // Uncomment one camera to choose which one is active
         Camera3D cam = new Camera3D(mc);

@@ -7,7 +7,6 @@ package cs155.jray;
  * 
  */
 public class DemoScene1 {
-	private static Scene3D scene = new Scene3D();
 
 	/**
 	 * this creates a window to demo the Canvas3D object
@@ -27,8 +26,6 @@ public class DemoScene1 {
 
 		RayTracer3D.drawScene(scene);
 
-		scene.getCamera().film.refresh();
-		
 		System.out.println("drew a sphere!");
 	}
 
@@ -55,7 +52,7 @@ public class DemoScene1 {
 //	}
 
 	private static Scene3D initScene2() {
-
+		Scene3D scene = new Scene3D("DemoScene1");
 		Material mat1 = new Material(new Color3D(0d, 0d, 0d), new Color3D(1d,
 				0d, 0d), new Color3D(1d, 1d, 1d), new Color3D(0d, 1d, 0d), 200);
 		Material mat2 = new Material(new Color3D(0d, 0d, 0d), new Color3D(0d,
@@ -75,7 +72,7 @@ public class DemoScene1 {
 		// light1.diffuse = new Color3D(1,0,0);
 		Light3D light2 = new Light3D(new Point3D(2, 30, -5), 0.5);
 		// light2.diffuse= new Color3D(0,0,1);
-		PngCanvas3D mc = new PngCanvas3D(800, 800, "DemoScene1.png");
+		PngCanvas3D mc = new PngCanvas3D(800, 800);
 		Camera3D cam = new Camera3D(mc);
 
 		scene.add(sp1);

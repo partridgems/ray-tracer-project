@@ -14,5 +14,5 @@ public interface Canvas3D {
 
 	public void drawPixel(int i, int j, java.awt.Color c);
 
-	public void refresh();
+	public void refresh(String name);
 }

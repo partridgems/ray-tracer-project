@@ -22,10 +22,9 @@ public class DemoScene3 {
      * This method uses the alternate PngCanvas3D to draw the scene in a png file for better portability.
      */
     public static void drawOnPNG() {
-    	Scene3D scene = new Scene3D();
+    	Scene3D scene = new Scene3D("DemoScene3_BlinnPhong_moved");
     	initScene(scene);
     	RayTracer3D.drawScene(scene);
-    	scene.getCamera().film.refresh();
     	System.out.println("\nDone.");
     }
 
@@ -80,7 +79,7 @@ public class DemoScene3 {
 		
 		cyl2.insideMat = mat1; // here we change the material on the inside of cylinder 2
 		
-    	PngCanvas3D mc = new PngCanvas3D(800, 800, "DemoScene3_BlinnPhong_moved.png");
+    	PngCanvas3D mc = new PngCanvas3D(800, 800);
 		Transform3D camTransf = new Transform3D();
 		// this transformation takes a few from above and to the right looking down at the cylinders
 		// comment it out to see the view from the origin..

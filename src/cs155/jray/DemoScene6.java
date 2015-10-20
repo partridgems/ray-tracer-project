@@ -13,8 +13,6 @@ public class DemoScene6 {
 
 		RayTracer3D.drawScene(scene);
 
-		scene.getCamera().film.refresh();
-
 		System.out.println("drew a sphere!");
 	}
 
@@ -41,7 +39,7 @@ public class DemoScene6 {
 //	}
 
 	private static Scene3D initScene2() {
-		Scene3D scene = new Scene3D();
+		Scene3D scene = new Scene3D("DemoScene6");
 
 		Material mat1 = new Material(Color3D.BLACK, new Color3D(1d,0d, 0d), Color3D.WHITE, new Color3D(0d, 1d, 0d), 200);
 		Material mat2 = new Material(Color3D.BLACK, Color3D.BLACK, new Color3D(1d, 1d, 0d), new Color3D(1d, 1d, 1d), 200);
@@ -57,7 +55,7 @@ public class DemoScene6 {
 		// light1.diffuse = new Color3D(1,0,0);
 		Light3D light2 = new Light3D(new Point3D(2, 30, -5), 0.5);
 		// light2.diffuse= new Color3D(0,0,1);
-		PngCanvas3D mc = new PngCanvas3D(800, 800, "DemoScene6.png");
+		PngCanvas3D mc = new PngCanvas3D(800, 800);
 //		Camera3D cam = new Camera3D(mc);
 		Camera3D cam = new FisheyeCamera3D(mc);
 
