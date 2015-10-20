@@ -1,8 +1,6 @@
 package cs155.jray;
 
 import java.util.Optional;
-import java.util.function.Function;
-
 /**
  * this class represented 3d affine transforms
  * 
@@ -43,129 +41,6 @@ public class Transform3D {
     }
 
 	/**
-	 * create a translation transform
-	 *
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @return
-	 */
-	public static Transform3D translation(double x, double y, double z) {
-		Transform3D t = new Transform3D();
-		t.tr[0][3] = x;
-		t.tr[1][3] = y;
-		t.tr[2][3] = z;
-		t.inv[0][3] = -x;
-		t.inv[1][3] = -y;
-		t.inv[2][3] = -z;
-
-		return t;
-	}
-
-    /*
-    public static Transform3D translation(Function<Integer, Double> sceneToX,
-                                          Function<Integer,Double> sceneToY,
-                                          Function<Integer, Double> sceneToZ) {
-        if(optScene.isPresent()) {
-            this(sceneToX.apply())
-        }
-
-    }
-    */
-
-	/**
-	 * generate the Transform3D corresponding to translation by a point p
-	 */
-	public static Transform3D translation(Point3D p) {
-		return translation(p.x, p.y, p.z);
-	}
-	
-	public static Transform3D scaleTransf(double x, double y, double z) {
-		Transform3D t = new Transform3D();
-		t.tr[0][0] = x;
-		t.tr[1][1] = y;
-		t.tr[2][2] = z;
-		
-		t.inv[0][0] = 1/x;
-		t.inv[1][1] = 1/y;
-		t.inv[2][2] = 1/z;
-		
-		return t;
-	}
-
-	/**
-	 * generate the Transform3D corresponding to rotation theta degrees around
-	 * the z-axis
-	 * 
-	 * @param theta
-	 * @return
-	 */
-	public static Transform3D rotationZ(double theta) {
-		Transform3D t = new Transform3D();
-		theta = theta / 180d * Math.PI;
-		double c = Math.cos(theta);
-		double s = Math.sin(theta);
-		t.tr[0][0] = c;
-		t.tr[0][1] = s;
-		t.tr[1][0] = -s;
-		t.tr[1][1] = c;
-		
-		t.inv[0][0] = c;
-		t.inv[0][1] = -s;
-		t.inv[1][0] = s;
-		t.inv[1][1] = c;
-		return t;
-	}
-
-	/**
-	 * generate the Transform3D corresponding to rotation theta degrees around
-	 * the y-axis
-	 * 
-	 * @param theta
-	 * @return
-	 */
-	public static Transform3D rotationY(double theta) {
-		Transform3D t = new Transform3D();
-		theta = theta / 180d * Math.PI;
-		double c = Math.cos(theta);
-		double s = Math.sin(theta);
-		t.tr[0][0] = c;
-		t.tr[0][2] = -s;
-		t.tr[2][0] = s;
-		t.tr[2][2] = c;
-		
-		t.inv[0][0] = c;
-		t.inv[0][2] = s;
-		t.inv[2][0] = -s;
-		t.inv[2][2] = c;
-		return t;
-	}
-
-	/**
-	 * generate the Transform3D corresponding to rotation theta degrees around
-	 * the x-axis
-	 * 
-	 * @param theta
-	 * @return
-	 */
-	public static Transform3D rotationX(double theta) {
-		Transform3D t = new Transform3D();
-		theta = theta / 180d * Math.PI;
-		double c = Math.cos(theta);
-		double s = Math.sin(theta);
-		t.tr[1][1] = c;
-		t.tr[1][2] = s;
-		t.tr[2][1] = -s;
-		t.tr[2][2] = c;
-		
-		t.inv[1][1] = c;
-		t.inv[1][2] = -s;
-		t.inv[2][1] = s;
-		t.inv[2][2] = c;
-		return t;
-	}
-
-	/**
 	 * Compose the two transformations by multiplying their correspond matrices
 	 * 
 	 * @param a
@@ -178,6 +53,19 @@ public class Transform3D {
 		t.inv = multiply(b.inv,a.inv);
 		return t;
 	}
+
+    /**
+     * Compose the current transformation with the passed transformation a
+     *
+     * @param a
+     * @return
+     */
+    public Transform3D compose(Transform3D b) {
+        Transform3D t = new Transform3D();
+        t.tr = multiply(tr, b.tr);
+        t.inv = multiply(b.inv, inv);
+        return t;
+    }
 	
 	public Transform3D inverse(){
 		Transform3D b = new Transform3D();
@@ -254,7 +142,7 @@ public class Transform3D {
 	 * @return
 	 */
 	public Transform3D translate(Point3D p) {
-		return (compose(this, Transform3D.translation(p)));
+		return this.translate(p.x, p.y, p.z);
 	}
 
 	/**
@@ -265,31 +153,73 @@ public class Transform3D {
 	 * @return
 	 */
 	public Transform3D translate(double x, double y, double z) {
-		return (compose(this, Transform3D.translation(x, y, z)));
+        Transform3D t = new Transform3D();
+        t.tr[0][3] = x;
+        t.tr[1][3] = y;
+        t.tr[2][3] = z;
+        t.inv[0][3] = -x;
+        t.inv[1][3] = -y;
+        t.inv[2][3] = -z;
+		return this.compose(t);
 	}
 	
 	public Transform3D scale(double x, double y, double z) {
-		return (compose(this, Transform3D.scaleTransf(x,y,z)));
+        Transform3D t = new Transform3D();
+        t.tr[0][0] = x;
+        t.tr[1][1] = y;
+        t.tr[2][2] = z;
+
+        t.inv[0][0] = 1/x;
+        t.inv[1][1] = 1/y;
+        t.inv[2][2] = 1/z;
+
+        return this.compose(t);
 	}
 
 	/**
 	 * return the transform obtained by composing with a x-rotation of d degrees
 	 * 
-	 * @param d
+	 * @param theta
 	 * @return
 	 */
-	public Transform3D rotateX(double d) {
-		return (compose(this, Transform3D.rotationX(d)));
+	public Transform3D rotateX(double theta) {
+        Transform3D t = new Transform3D();
+        theta = theta / 180d * Math.PI;
+        double c = Math.cos(theta);
+        double s = Math.sin(theta);
+        t.tr[1][1] = c;
+        t.tr[1][2] = s;
+        t.tr[2][1] = -s;
+        t.tr[2][2] = c;
+
+        t.inv[1][1] = c;
+        t.inv[1][2] = -s;
+        t.inv[2][1] = s;
+        t.inv[2][2] = c;
+		return this.compose(t);
 	}
 
 	/**
 	 * return the transform obtained by composing with a y-rotation of d degrees
 	 * 
-	 * @param d
+	 * @param theta
 	 * @return
 	 */
-	public Transform3D rotateY(double d) {
-		return (compose(this, Transform3D.rotationY(d)));
+	public Transform3D rotateY(double theta) {
+        Transform3D t = new Transform3D();
+        theta = theta / 180d * Math.PI;
+        double c = Math.cos(theta);
+        double s = Math.sin(theta);
+        t.tr[0][0] = c;
+        t.tr[0][2] = -s;
+        t.tr[2][0] = s;
+        t.tr[2][2] = c;
+
+        t.inv[0][0] = c;
+        t.inv[0][2] = s;
+        t.inv[2][0] = -s;
+        t.inv[2][2] = c;
+		return this.compose(t);
 	}
 
 	/**
@@ -298,8 +228,21 @@ public class Transform3D {
 	 * @param d
 	 * @return
 	 */
-	public Transform3D rotateZ(double d) {
-		return (compose(this, Transform3D.rotationZ(d)));
+	public Transform3D rotateZ(double theta) {
+        Transform3D t = new Transform3D();
+        theta = theta / 180d * Math.PI;
+        double c = Math.cos(theta);
+        double s = Math.sin(theta);
+        t.tr[0][0] = c;
+        t.tr[0][1] = s;
+        t.tr[1][0] = -s;
+        t.tr[1][1] = c;
+
+        t.inv[0][0] = c;
+        t.inv[0][1] = -s;
+        t.inv[1][0] = s;
+        t.inv[1][1] = c;
+		return this.compose(t);
 	}
 
 	public String toString() {
@@ -330,8 +273,8 @@ public class Transform3D {
 	private static void runUnitTests() {
 		System.out.println("id = \n" + Transform3D.IDENTITY);
 		System.out.println("tr(1,2,3) = \n"
-				+ Transform3D.translation(1d, 2d, 3d));
-		System.out.println("rotX(45) = \n" + Transform3D.rotationX(45d));
+				+ new Transform3D().translate(1d, 2d, 3d));
+		System.out.println("rotX(45) = \n" + new Transform3D().rotateX(45d));
 	}
 
 }

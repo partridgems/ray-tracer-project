@@ -63,16 +63,17 @@ public class DepthFieldCamera3D extends Camera3D {
 //		double distanceToFocalPlane = this.depth/r.d.dot(new Point3D(0, 0, -1));
 //		
 //		// Translates the ray back to the origin(camera) to rotate it for the blur effect
-//		Transform3D backToCamera = Transform3D.translation(r.d.scale(-distanceToFocalPlane));
-//		Transform3D fwdFromCamera = Transform3D.translation(r.d.scale(distanceToFocalPlane));
+//		Transform3D backToCamera = new Transform3D().translate(r.d.scale(-distanceToFocalPlane));
+//		Transform3D fwdFromCamera = new Transform3D().translate(r.d.scale(distanceToFocalPlane));
 //		
 //		// Stochastically rotate this ray depending on distance to the focal plane
 //		double xRotate = Math.toDegrees(Math.atan( (Math.random()-.5)*aperture/depth ));
 //		double yRotate = Math.toDegrees(Math.atan( (Math.random()-.5)*aperture/depth ));
-//		Transform3D rotate = Transform3D.compose(Transform3D.rotationX(xRotate), Transform3D.rotationY(yRotate));
+//		Transform3D rotate = new Transform3D().rotateX(xRotate).rotateY(yRotate);
 //		
 //		// Now change the ray's direction to cause the blur
-//		Transform3D fullTransform = Transform3D.compose(Transform3D.compose(backToCamera, rotate), fwdFromCamera);
+//		Transform3D fullTransform = backToCamera.rotate.fwdFromCamera;
+
 //		r.d = fullTransform.applyTo(r.d);
 		
 		return bluredRay.applyTransform(this.transform);
