@@ -22,9 +22,9 @@ public class QuadricSurface extends Object3D {
      */
     public static void main(String[] args) {
         Scene3D scene = DemoScene8.initScene2();
-        for (int i = 0; i < scene.camera.film.width(); i+=1) {
-            for (int j = 0; j < scene.camera.film.height(); j++) {
-                Ray3D r1 = scene.camera.generateRay(i, j); // generate a ray
+        for (int i = 0; i < scene.getCamera().film.width(); i+=1) {
+            for (int j = 0; j < scene.getCamera().film.height(); j++) {
+                Ray3D r1 = scene.getCamera().generateRay(i, j); // generate a ray
                 // Expected sphere
                 QuadricSurface expected = new QuadricSurface(1, 1, 1, 0, 0, 0, 0, 0, 0, -1);
                 // Observed sphere

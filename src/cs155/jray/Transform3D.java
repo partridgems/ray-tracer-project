@@ -1,5 +1,8 @@
 package cs155.jray;
 
+import java.util.Optional;
+import java.util.function.Function;
+
 /**
  * this class represented 3d affine transforms
  * 
@@ -14,6 +17,9 @@ public class Transform3D {
 	private double tr[][] = new double[4][4];
 	private double inv[][] = new double[4][4];
 
+    // Scene that the transform is parametrized over
+    private Optional<Scene3D> optScene;
+
 	/**
 	 * create the default transform, which is the identity transform
 	 */
@@ -23,11 +29,22 @@ public class Transform3D {
 				this.inv[i][j] = this.tr[i][j] = (i == j) ? 1 : 0;
 			}
 		}
+        this.optScene = Optional.empty();
 	}
+
+    /**
+     * Creates the default transform, parametrized over a particular scene (i.e. the scene
+     * # of the scene
+     *
+     * @param scene
+     */
+	public Transform3D(Scene3D scene) {
+        this.optScene = Optional.of(scene);
+    }
 
 	/**
 	 * create a translation transform
-	 * 
+	 *
 	 * @param x
 	 * @param y
 	 * @param z
@@ -41,9 +58,20 @@ public class Transform3D {
 		t.inv[0][3] = -x;
 		t.inv[1][3] = -y;
 		t.inv[2][3] = -z;
-		
+
 		return t;
 	}
+
+    /*
+    public static Transform3D translation(Function<Integer, Double> sceneToX,
+                                          Function<Integer,Double> sceneToY,
+                                          Function<Integer, Double> sceneToZ) {
+        if(optScene.isPresent()) {
+            this(sceneToX.apply())
+        }
+
+    }
+    */
 
 	/**
 	 * generate the Transform3D corresponding to translation by a point p

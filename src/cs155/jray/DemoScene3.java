@@ -25,7 +25,7 @@ public class DemoScene3 {
     	Scene3D scene = new Scene3D();
     	initScene(scene);
     	RayTracer3D.drawScene(scene);
-    	scene.camera.film.refresh();
+    	scene.getCamera().film.refresh();
     	System.out.println("\nDone.");
     }
 

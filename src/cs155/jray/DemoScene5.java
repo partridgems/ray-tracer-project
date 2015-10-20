@@ -10,7 +10,7 @@ public class DemoScene5 {
     public static void main(String[] args) {
     	Scene3D scene = new Scene3D(); initScene(scene);
     	RayTracer3D.drawScene(scene);
-    	scene.camera.film.refresh();
+    	scene.getCamera().film.refresh();
     	System.out.println("\nDone.");
     }
 

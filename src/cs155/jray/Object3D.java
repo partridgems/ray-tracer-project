@@ -14,10 +14,10 @@ public abstract class Object3D {
 	
 	public Transform3D transform = Transform3D.IDENTITY;
 
-	// x.rayIntersect(ray) -- returns a double, -1 for no intersection, t>0 for
+	// x.firstIntersection(ray) -- returns a double, -1 for no intersection, t>0 for
 	// intersection at value t
 	/**
-	 * rayIntersectObj(r) returns a RayHit object, h, for the intersection of r
+	 * firstIntersection(r) returns a RayHit object, h, for the intersection of r
 	 * with the object where h.distance is the distance to the intersection and
 	 * h.normal is the normal at the intersection point If the ray does not
 	 * intersect, then h.distance = -1 and h.normal is null. This method must be

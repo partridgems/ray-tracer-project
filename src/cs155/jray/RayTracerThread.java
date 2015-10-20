@@ -21,21 +21,21 @@ public class RayTracerThread implements Runnable{
 	@Override
 	public void run() {
 		// for each point...
-		for (int i = threadNum; i < scene.camera.film.width(); i+=RayTracer3D.THREAD_COUNT) {
+		for (int i = threadNum; i < scene.getCamera().film.width(); i+=RayTracer3D.THREAD_COUNT) {
 			
 			if (i%100 == 0 && i > 0) {
 				System.out.print(" " + i);
 			}
-			for (int j = 0; j < scene.camera.film.height(); j++) {
+			for (int j = 0; j < scene.getCamera().film.height(); j++) {
 
 				// Sample a bunch of points near it and average
 				Color3D pixelColorSamples[] = new Color3D[oversamples];
 				for (int sample = 0; sample < oversamples; sample++) {
-					Ray3D r1 = scene.camera.generateRay(i, j); // generate a ray
+					Ray3D r1 = scene.getCamera().generateRay(i, j); // generate a ray
 					if (r1 == Ray3D.NOT_IN_SCENE) {  // This pixel is outside of the lens we are using (used in FishEye)
 						pixelColorSamples[sample] = Color3D.BLACK;
 					} else {
-						pixelColorSamples[sample] = RayTracer3D.computeColor(r1, scene, scene.reflectionDepth); // compute its color
+						pixelColorSamples[sample] = RayTracer3D.computeColor(r1, scene, scene.getReflectionDepth()); // compute its color
 					}
 				} // End of antialiasing sampling
 
@@ -43,7 +43,7 @@ public class RayTracerThread implements Runnable{
 				Color3D pixelColor = Color3D.averageSet(pixelColorSamples);
 
 				// Paint pixel
-				scene.camera.film.drawPixel(i,j, pixelColor.toColor());
+				scene.getCamera().film.drawPixel(i,j, pixelColor.toColor());
 			}
 		} // End of painting points
 	}
