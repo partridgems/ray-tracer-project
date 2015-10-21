@@ -20,3 +20,14 @@ hs_err_pid*
 # Images
 *.png
 *.gif
+
+# IntelliJ
+*.iml
+
+# Eclipse
+.classpath
+.project
+
+# MISC
+*.swp
+
