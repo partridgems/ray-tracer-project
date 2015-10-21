@@ -57,28 +57,28 @@ public class DemoScene12 {
 
 		CheckerTexture tex = new CheckerTexture();
 		tex.scale(10,10);
-		mat1.texture = tex;
-		mat1.texWeight = 0.25;
+		mat1.setTexture(tex);
+		mat1.setTexWeight(0.25);
 		CheckerTexture tex2 = new CheckerTexture();
 		tex2.scale(1000,100);
-		mat2.texture = tex2;
-		mat2.texWeight = 0.25;
+		mat2.setTexture(tex2);
+		mat2.setTexWeight(0.25);
 		CheckerTexture tex3 = new CheckerTexture();
 		tex3.scale(1000,1000);
-		mat3.texture = tex3;
-		mat3.texWeight = 0.25;
-		mat3.reflect=0.0;
+		mat3.setTexture(tex3);
+		mat3.setTexWeight(0.25);
+		mat3.setReflect(0.0);
 		
 		ImageTexture tex4 = new ImageTexture("images/basketball.png");
 		tex4.scale(50,50);
-		mat4.texture = tex4;
-		mat4.texWeight = 0.95; //75;
-		//mat4.reflect = 0;
+		mat4.setTexture(tex4);
+		mat4.setTexWeight(0.95); //75;
+		//mat4.REFLECT = 0;
 		
 		ImageTexture tex5 = new ImageTexture("images/daisies.png");
 		tex5.scale(50,50);
-		mat5.texture = tex5;
-		mat5.texWeight = 0.95;
+		mat5.setTexture(tex5);
+		mat5.setTexWeight(0.95);
 		
 //		Cylinder3D cyl1 = new Cylinder3D(new Point3D(1,-1,-15),new Point3D(0,1,0),3.0,15.0,mat4);
 		Cylinder3D cyl2 = new Cylinder3D(new Point3D(25, -5,-15),new Point3D(0,1,0),20.0,25.0,mat3);
@@ -94,7 +94,7 @@ public class DemoScene12 {
 //		Light3D light3 = new Light3D(new Point3D(0,2,-13),1.0); // this light is near the openings of both cylinders
 //		Light3D light4 = new Light3D(new Point3D(-2,13,-4),1.0); // this light is inside cylinder 1, toward the far end
 		
-		cyl2.insideMat = mat1; // here we change the material on the inside of cylinder 2
+		cyl2.setInsideMat(mat1); // here we change the material on the inside of cylinder 2
 		
     		GifCanvas3D mc = new GifCanvas3D("DemoScene10", 800, 800);
 		Transform3D camTransf = new Transform3D();
@@ -117,7 +117,7 @@ public class DemoScene12 {
 //		scene.add(light4);
 		scene.add(cam);
 
-        scene.anim = new Animator3D() {    //Implemented Animator3D methods, which allows for animations.
+        scene.setAnim(new Animator3D() {    //Implemented Animator3D methods, which allows for animations.
             int count = 0;
             int d = 5;
             int h = 5;
@@ -130,11 +130,11 @@ public class DemoScene12 {
             public Scene3D next() {
                 int x = count;
                 int y = -(x-d)^2 + h;
-				sp2.applyTrans(cyl2.transform.translate(x,y,0));
+				sp2.applyTrans(cyl2.getTransform().translate(x, y, 0));
                 count++;
                 return scene;
             }
-        };
+        });
 
 	}
 

@@ -119,8 +119,8 @@ public class Transform3D {
 	public Point3D applyTo(Point3D p) {
 		double[] vals = new double[4];
 		for (int i = 0; i < 4; i++) {
-			vals[i] = tr[i][0] * p.x + tr[i][1] * p.y + tr[i][2] * p.z
-					+ tr[i][3] * p.w;
+			vals[i] = tr[i][0] * p.getX() + tr[i][1] * p.getY() + tr[i][2] * p.getZ()
+					+ tr[i][3] * p.getW();
 		}
 		return new Point3D(vals[0], vals[1], vals[2]);
 	}
@@ -128,8 +128,8 @@ public class Transform3D {
 	public Point3D applyInvTranspTo(Point3D p) {
 		double[] vals = new double[4];
 		for (int i = 0; i < 4; i++) {
-			vals[i] = inv[0][i] * p.x + inv[1][i] * p.y + inv[2][i] * p.z
-					+ inv[3][i] * p.w;
+			vals[i] = inv[0][i] * p.getX() + inv[1][i] * p.getY() + inv[2][i] * p.getZ()
+					+ inv[3][i] * p.getW();
 		}
 		return new Point3D(vals[0], vals[1], vals[2]);
 	}
@@ -142,7 +142,7 @@ public class Transform3D {
 	 * @return
 	 */
 	public Transform3D translate(Point3D p) {
-		return this.translate(p.x, p.y, p.z);
+		return this.translate(p.getX(), p.getY(), p.getZ());
 	}
 
 	/**

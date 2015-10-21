@@ -20,7 +20,7 @@ public class Cylinder3D extends Object3D {
 
 	public Cylinder3D(Point3D center, Point3D direction, double radius,
 			double height) {
-		this(center, direction, radius, height, Material.defaultMat);
+		this(center, direction, radius, height, Material.DEFAULT_MAT);
 	}
 
 	public Cylinder3D(Point3D center, Point3D direction, double radius,
@@ -29,11 +29,12 @@ public class Cylinder3D extends Object3D {
 		this.direction = direction.normalize();
 		this.radius = radius;
 		this.height = height;
-		this.insideMat = this.outsideMat = m;
+		this.setInsideMat(m);
+		this.setOutsideMat(m);
 	}
 
 	protected RayHit rayIntersectObj(Ray3D r) {
-		Point3D P = r.p, D = r.d;
+		Point3D P = r.getPoint(), D = r.getDirection();
 		Point3D PC = P.subtract(center);
 		Point3D a = D.subtract(direction.scale(direction.dot(D)));
 		Point3D b = PC.subtract(direction.scale(direction.dot(PC)));
@@ -48,7 +49,7 @@ public class Cylinder3D extends Object3D {
 
 		Point3D p, V2;
 		double h;
-		if (t1 >= epsilon) {
+		if (t1 >= getEpsilon()) {
 			p = r.atTime(t1);
 			V2 = p.subtract(center);
 			h = direction.dot(V2);
@@ -56,7 +57,7 @@ public class Cylinder3D extends Object3D {
 				return new RayHit(p, t1, normal(p), this,
 						getTextureCoordinate(V2));
 		}
-		if (t2 >= epsilon) {
+		if (t2 >= getEpsilon()) {
 			p = r.atTime(t2);
 			V2 = p.subtract(center);
 			h = direction.dot(V2);
@@ -81,7 +82,7 @@ public class Cylinder3D extends Object3D {
 	 */
 	private TextureCoordinate getTextureCoordinate(Point3D p) {
 		double y = p.dot(direction);
-		double x = Math.atan2(p.z, p.x);
+		double x = Math.atan2(p.getZ(), p.getX());
 		TextureCoordinate tc = new TextureCoordinate(x, y);
 		return tc;
 	}

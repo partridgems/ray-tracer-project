@@ -9,15 +9,14 @@ import cs155.aesthetic.TextureCoordinate;
  * coordinates of the object
  **/
 public class RayHit {
-	public static RayHit NO_HIT = new RayHit(null, Double.POSITIVE_INFINITY,
+	public static final RayHit NO_HIT = new RayHit(null, Double.POSITIVE_INFINITY,
 			null, null, null);
 
-	public double distance; // distance along ray to the first intersection (or
-							// -1 if there is no intersection)
-	public Point3D normal; // normal of the object at the intersection point
-	public Point3D hitPoint = null; // point of intersection
-	public Object3D obj; // innermost primitive object that this ray hits...
-	public TextureCoordinate tc;
+	private double distance; // distance along ray to the first intersection
+	private Point3D normal; // normal of the object at the intersection point
+	private Point3D hitPoint; // point of intersection
+	private Object3D obj; // innermost primitive object that this ray hits...
+	private TextureCoordinate tc;
 
 	/**
 	 * Generates a RayHit where x,y are the Texture Coordinates
@@ -31,7 +30,7 @@ public class RayHit {
 
 		if (this.normal != null) {
 			this.normal = this.normal.normalize();
-			this.normal.w = 0;
+			this.normal.setW(0);
 		}
 		this.tc = tc;
 	}
@@ -41,4 +40,43 @@ public class RayHit {
 				+ "," + tc + ")";
 	}
 
+	public double getDistance() {
+		return distance;
+	}
+
+	public void setDistance(double distance) {
+		this.distance = distance;
+	}
+
+	public Point3D getNormal() {
+		return normal;
+	}
+
+	public void setNormal(Point3D normal) {
+		this.normal = normal;
+	}
+
+	public Point3D getHitPoint() {
+		return hitPoint;
+	}
+
+	public void setHitPoint(Point3D hitPoint) {
+		this.hitPoint = hitPoint;
+	}
+
+	public Object3D getObj() {
+		return obj;
+	}
+
+	public void setObj(Object3D obj) {
+		this.obj = obj;
+	}
+
+	public TextureCoordinate getTc() {
+		return tc;
+	}
+
+	public void setTc(TextureCoordinate tc) {
+		this.tc = tc;
+	}
 }

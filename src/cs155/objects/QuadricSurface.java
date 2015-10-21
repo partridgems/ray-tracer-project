@@ -31,8 +31,9 @@ public class QuadricSurface extends Object3D {
         this.h = h;
         this.i = i;
         this.j = j;
-        this.insideMat = this.outsideMat = new Material(Color3D.BLACK, Color3D.BLACK,
-        		Color3D.WHITE.scale(0.5), Color3D.WHITE, 25);
+        Material m = new Material(Color3D.BLACK, Color3D.BLACK, Color3D.WHITE.scale(0.5), Color3D.WHITE, 25);
+        this.setInsideMat(m);
+        this.setOutsideMat(m);
         this.minBounds = this.maxBounds = Optional.empty();
     }
 
@@ -51,7 +52,7 @@ public class QuadricSurface extends Object3D {
         if (hitPoint == null || !isWithinBounds(hitPoint)) {
             return RayHit.NO_HIT;
         }
-        double distance = hitPoint.subtract(ray.p).length();
+        double distance = hitPoint.subtract(ray.getPoint()).length();
         Point3D normal = findNormalAtPoint(hitPoint);
         return new RayHit(hitPoint, distance, normal, this, new TextureCoordinate(0, 0));
     }
@@ -64,9 +65,9 @@ public class QuadricSurface extends Object3D {
      * @return
      */
     private Point3D findNormalAtPoint(Point3D hitPoint) {
-        double x = hitPoint.x;
-        double y = hitPoint.y;
-        double z = hitPoint.z;
+        double x = hitPoint.getX();
+        double y = hitPoint.getY();
+        double z = hitPoint.getZ();
         double normalX = 2 * a * x + e * z + f * y + g;
         double normalY = 2 * b * y + d * z + f * x + h;
         double normalZ = 2 * c * z + d * y + e * x + i;
@@ -84,20 +85,20 @@ public class QuadricSurface extends Object3D {
         // to get standard form: At^2 + Bt + C = 0, then use the quadratic equation to solve for t.
         // The coefficients A, B, and C are quite ugly, and the derivation is described in the linked
         // resource
-        Point3D P = ray.p; // Ray starting point
-        Point3D D = ray.d; // Ray direction
+        Point3D P = ray.getPoint(); // Ray starting point
+        Point3D D = ray.getDirection(); // Ray direction
         // First coefficient of quadratic equation of t
-        double A = a * sq(D.x) + b * sq(D.y) + c * sq(D.z)
-                 + d * D.y * D.z + e * D.x * D.z + f * D.x * D.y;
+        double A = a * sq(D.getX()) + b * sq(D.getY()) + c * sq(D.getZ())
+                 + d * D.getY() * D.getZ() + e * D.getX() * D.getZ() + f * D.getX() * D.getY();
         // Second coefficient of quadratic equation of t
-        double B = 2 * (a * P.x * D.x + b * P.y * D.y + c * P.z * D.z)
-                 + d * (P.y * D.z + P.z * D.y)
-                 + e * (P.x * D.z + P.z * D.x)
-                 + f * (P.x * D.y + P.y * D.x)
-                 + g * D.x + h * D.y + i * D.z;
+        double B = 2 * (a * P.getX() * D.getX() + b * P.getY() * D.getY() + c * P.getZ() * D.getZ())
+                 + d * (P.getY() * D.getZ() + P.getZ() * D.getY())
+                 + e * (P.getX() * D.getZ() + P.getZ() * D.getX())
+                 + f * (P.getX() * D.getY() + P.getY() * D.getX())
+                 + g * D.getX() + h * D.getY() + i * D.getZ();
         // Third coefficient of quadratic equation of t
-        double C = a * sq(P.x) + b * sq(P.y) + c * sq(P.z) + d * P.y * P.z
-                 + e * P.x * P.z + f * P.x * P.y + g * P.x + h * P.y + i * P.z + j;
+        double C = a * sq(P.getX()) + b * sq(P.getY()) + c * sq(P.getZ()) + d * P.getY() * P.getZ()
+                 + e * P.getX() * P.getZ() + f * P.getX() * P.getY() + g * P.getX() + h * P.getY() + i * P.getZ() + j;
 
         double discriminant = sq(B) - 4 * A * C;
 
@@ -141,14 +142,14 @@ public class QuadricSurface extends Object3D {
         // Check if point is above min bounds
         if (minBounds.isPresent()) {
             Point3D min = minBounds.get();
-            if (point.x < min.x || point.y < min.y || point.z < min.z) {
+            if (point.getX() < min.getX() || point.getY() < min.getY() || point.getZ() < min.getZ()) {
                 return false;
             }
         }
         // Check if point is below max bounds
         if (maxBounds.isPresent()) {
             Point3D max = maxBounds.get();
-            if (point.x > max.x || point.y > max.y || point.z > max.z) {
+            if (point.getX() > max.getX() || point.getY() > max.getY() || point.getZ() > max.getZ()) {
                 return false;
             }
         }

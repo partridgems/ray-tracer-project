@@ -59,7 +59,7 @@ public class Scene3D {
         for (int i = 0; i < getObjs().size(); i++) {
             Object3D obj = getObjs().get(i);
             RayHit hit = obj.rayIntersect(ray);
-            if (hit.distance < closestHit.distance) {
+            if (hit.getDistance() < closestHit.getDistance()) {
                 closestHit = hit;
             }
         }
@@ -73,8 +73,8 @@ public class Scene3D {
      */
     public void pushTextures(Material inside, Material outside){
         for(Object3D obj: getObjs()){
-            obj.insideMat = inside;
-            obj.outsideMat = outside;
+            obj.setInsideMat(inside);
+            obj.setOutsideMat(outside);
         }
     }
 
@@ -92,14 +92,14 @@ public class Scene3D {
      * for animated images.
      */
     public void save() {
-    	this.camera.film.refresh(this.name);
+    	this.camera.getFilm().refresh(this.name);
     }
 
     /**
      * Should be called when the image is done (closes any unclosed resources)
      */
     public void done() {
-        this.camera.film.done();
+        this.camera.getFilm().done();
     }
 
     /** Here we create the scene elements as instance variables **/

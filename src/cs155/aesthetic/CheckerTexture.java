@@ -8,11 +8,11 @@ import java.awt.Color;
  * This computes a checkerboard texture
  **/
 public class CheckerTexture extends Texture {
-	public Color3D white = new Color3D(1d, 1d, 1d), black = new Color3D(0d, 0d,
-			0d);
+	private Color3D white;
+	private Color3D black;
 
 	public CheckerTexture() {
-		;
+		this(new Color(1f, 1f, 1f), new Color(0f, 0f, 0f));
 	}
 
 	/**
@@ -29,8 +29,8 @@ public class CheckerTexture extends Texture {
 	 * image is (x,y) where the checkerboard squares have size 100x100
 	 **/
 	public Color3D getColor(TextureCoordinate tc) {
-		int i = (int) Math.floor((tc.x + uOffset) * uScale / 100);
-		int j = (int) Math.floor((tc.y + vOffset) * vScale / 100);
+		int i = (int) Math.floor((tc.getX() + getuOffset()) * getuScale() / 100);
+		int j = (int) Math.floor((tc.getY() + getvOffset()) * getvScale() / 100);
 		boolean isWhite = ((i + j) % 2) == 0;
 		if (isWhite)
 			return white;
@@ -38,4 +38,19 @@ public class CheckerTexture extends Texture {
 			return black;
 	}
 
+	public Color3D getWhite() {
+		return white;
+	}
+
+	public void setWhite(Color3D white) {
+		this.white = white;
+	}
+
+	public Color3D getBlack() {
+		return black;
+	}
+
+	public void setBlack(Color3D black) {
+		this.black = black;
+	}
 }

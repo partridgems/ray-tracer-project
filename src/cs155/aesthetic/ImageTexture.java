@@ -37,8 +37,8 @@ public class ImageTexture extends Texture {
 		if ((buf == null) || (w < 1) || (h < 1))
 			return Color3D.WHITE;
 
-		int i = (int) Math.floor((tc.x + uOffset) * uScale);
-		int j = (int) Math.floor((tc.y + vOffset) * vScale);
+		int i = (int) Math.floor((tc.getX() + getuOffset()) * getuScale());
+		int j = (int) Math.floor((tc.getY() + getvOffset()) * getvScale());
 		i = i % w;
 		j = j % h;
 		if (i < 0)

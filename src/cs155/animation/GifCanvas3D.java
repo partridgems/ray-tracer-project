@@ -13,7 +13,7 @@ public class GifCanvas3D implements Canvas3D {
 
     private GifSequenceWriter writer;
     private final int FRAME_RATE = 1; // Frame rate
-    BufferedImage currentImage; // Current image to write
+    private BufferedImage currentImage; // Current image to write
 
 
     /**

@@ -9,12 +9,16 @@ import cs155.aesthetic.Material;
 
 public abstract class Object3D {
 
-	public static final double epsilon = 0.0001;
+	private static final double epsilon = 0.0001;
 
-	public Material insideMat = Material.defaultMat,
-			outsideMat = Material.defaultMat;
+	private Material insideMat = Material.DEFAULT_MAT;
+	private Material outsideMat = Material.DEFAULT_MAT;
 	
-	public Transform3D transform = Transform3D.IDENTITY;
+	private Transform3D transform = Transform3D.IDENTITY;
+
+	public static double getEpsilon() {
+		return epsilon;
+	}
 
 	// x.firstIntersection(ray) -- returns a double, -1 for no intersection, t>0 for
 	// intersection at value t
@@ -29,7 +33,7 @@ public abstract class Object3D {
 	
 	public RayHit rayIntersect(Ray3D ray) {
 		// calculate the inverse transform of the ray
-		Transform3D invt = transform.inverse();
+		Transform3D invt = getTransform().inverse();
 		Ray3D invRay = ray.applyTransform(invt);
 		
 		// intersect it with M
@@ -38,13 +42,13 @@ public abstract class Object3D {
 			return rh;
 		
 		// transform the RayHit by T (be careful with normals!)
-		Point3D p = transform.applyTo(rh.hitPoint);
-		Point3D n = transform.applyInvTranspTo(rh.normal);
+		Point3D p = getTransform().applyTo(rh.getHitPoint());
+		Point3D n = getTransform().applyInvTranspTo(rh.getNormal());
 		//Point3D n = transform.applyTo(rh.normal);
 		// we had to remove the normalization of ray direction
 		// to get this to work
-		double t = rh.distance; ///invRay.d.length();
-		RayHit rh2 = new RayHit(p,t,n,rh.obj,rh.tc);
+		double t = rh.getDistance(); ///invRay.d.length();
+		RayHit rh2 = new RayHit(p,t,n, rh.getObj(), rh.getTc());
 		
 		return rh2;
 	}
@@ -55,7 +59,26 @@ public abstract class Object3D {
 	}
 	
 	public void applyTrans(Transform3D t){
-		transform = Transform3D.compose(transform, t);
+		setTransform(Transform3D.compose(getTransform(), t));
 	}
-	
+
+	public Material getInsideMat() {
+		return insideMat;
+	}
+
+	public void setInsideMat(Material insideMat) {
+		this.insideMat = insideMat;
+	}
+
+	public Material getOutsideMat() {
+		return outsideMat;
+	}
+
+	public void setOutsideMat(Material outsideMat) {
+		this.outsideMat = outsideMat;
+	}
+
+	public Transform3D getTransform() {
+		return transform;
+	}
 }

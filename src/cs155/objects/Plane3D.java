@@ -12,7 +12,8 @@ import cs155.core.RayHit;
  */
 
 public class Plane3D extends Object3D {
-	public Point3D center, normal;
+	private Point3D center;
+    private Point3D normal;
 	private Point3D up = new Point3D(0d, 1d, 0d);
 	private Point3D right = new Point3D(1d, 0d, 0d);
 
@@ -20,7 +21,8 @@ public class Plane3D extends Object3D {
 		super();
 		this.center = center;
 		this.normal = normal.normalize();
-		this.insideMat = this.outsideMat = m;
+		this.setInsideMat(m);
+		this.setOutsideMat(m);
 		Point3D tmp = project(up);
 		if (Math.abs(tmp.dot(tmp)) > 0.1) {
 			up = up.normalize();
@@ -33,7 +35,7 @@ public class Plane3D extends Object3D {
 	}
 
 	public Plane3D(Point3D center, Point3D normal) {
-		this(center, normal, Material.defaultMat);
+		this(center, normal, Material.DEFAULT_MAT);
 	}
 
 	private Point3D project(Point3D q) {
@@ -41,13 +43,13 @@ public class Plane3D extends Object3D {
 	}
 
 	public RayHit rayIntersectObj(Ray3D r) {
-		Point3D P = r.p, D = r.d;
+		Point3D P = r.getPoint(), D = r.getDirection();
 		Point3D PC = P.subtract(center);
 		double dn = normal.dot(D), cpn = normal.dot(PC) /*, t*/;
 		if (dn == 0.0)
 			return RayHit.NO_HIT;
 		double t0 = -cpn / dn;
-		if (t0 < epsilon)
+		if (t0 < getEpsilon())
 			return RayHit.NO_HIT;
 		else {
 			Point3D q = r.atTime(t0);
@@ -66,4 +68,19 @@ public class Plane3D extends Object3D {
 		}
 	}
 
+    public Point3D getCenter() {
+        return center;
+    }
+
+    public void setCenter(Point3D center) {
+        this.center = center;
+    }
+
+    public Point3D getNormal() {
+        return normal;
+    }
+
+    public void setNormal(Point3D normal) {
+        this.normal = normal;
+    }
 }

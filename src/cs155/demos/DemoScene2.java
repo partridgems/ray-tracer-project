@@ -67,7 +67,7 @@ public class DemoScene2 {
 																	// the far
 																	// end
 
-		cyl2.insideMat = mat4; // here we change the material on the inside of
+		cyl2.setInsideMat(mat4); // here we change the material on the inside of
 								// cylinder 2
 
 		PngCanvas3D mc = new PngCanvas3D(800, 800);

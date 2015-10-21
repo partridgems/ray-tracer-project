@@ -13,10 +13,12 @@ public class Color3D {
 	/**
 	 * here we define some constant values
 	 */
-	public static final Color3D WHITE = new Color3D(1d, 1d, 1d),
-			BLACK = new Color3D(0d, 0d, 0d);
+	public static final Color3D WHITE = new Color3D(1d, 1d, 1d);
+	public static final Color3D BLACK = new Color3D(0d, 0d, 0d);
 
-	public double red = 1.0, green = 1.0, blue = 1.0;
+	private double red;
+	private double green;
+	private double blue;
 
 	/**
 	 * create a color from its red green and blue components (assumed to be
@@ -109,4 +111,27 @@ public class Color3D {
 		return "c3d(" + red + "," + green + "," + blue + ")";
 	}
 
+	public double getRed() {
+		return red;
+	}
+
+	public void setRed(double red) {
+		this.red = red;
+	}
+
+	public double getGreen() {
+		return green;
+	}
+
+	public void setGreen(double green) {
+		this.green = green;
+	}
+
+	public double getBlue() {
+		return blue;
+	}
+
+	public void setBlue(double blue) {
+		this.blue = blue;
+	}
 }

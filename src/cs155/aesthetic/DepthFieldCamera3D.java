@@ -21,7 +21,7 @@ import cs155.core.Canvas3D;
 
 public class DepthFieldCamera3D extends Camera3D {
 
-	private Point3D origin = new Point3D(0d, 0d, 0d);
+	private static final Point3D origin = new Point3D(0d, 0d, 0d);
 
 	private double depth; // Depth into the scene for the focal point. Uses the normalized coordinate system
 	private double aperture;
@@ -32,8 +32,8 @@ public class DepthFieldCamera3D extends Camera3D {
 
 	public DepthFieldCamera3D(Canvas3D f, Transform3D tr, double depth, double aperture) {
 		super(f);
-		this.film = f;
-		this.transform = tr;
+		this.setFilm(f);
+		this.setTransform(tr);
 		this.depth = depth;
 		this.aperture = aperture;
 	}
@@ -51,11 +51,11 @@ public class DepthFieldCamera3D extends Camera3D {
 		 */
 		
 		// First, we calculate a normalized u,v coordinate as in the traditional lens.
-		int k = film.height() - j;
+		int k = getFilm().height() - j;
 		double xjitter = Math.random()-0.5;
 		double yjitter = Math.random()-0.5;
-		double u = 2 * (i + xjitter - film.width() / 2d) / film.height();
-		double v = 2 * (k + yjitter - film.height() / 2d) / film.height();
+		double u = 2 * (i + xjitter - getFilm().width() / 2d) / getFilm().height();
+		double v = 2 * (k + yjitter - getFilm().height() / 2d) / getFilm().height();
 		
 		Ray3D r = new Ray3D(origin, new Point3D(u, v, SCREEN_DIST));
 		
@@ -82,6 +82,6 @@ public class DepthFieldCamera3D extends Camera3D {
 
 //		r.d = fullTransform.applyTo(r.d);
 		
-		return bluredRay.applyTransform(this.transform);
+		return bluredRay.applyTransform(this.getTransform());
 	}
 }

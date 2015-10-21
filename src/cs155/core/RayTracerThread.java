@@ -7,9 +7,9 @@ package cs155.core;
  */
 public class RayTracerThread implements Runnable{
 	
-	int threadNum;
-	int oversamples;
-	Scene3D scene;
+	private int threadNum;
+	private int oversamples;
+	private Scene3D scene;
 
 	
 	public RayTracerThread(int threadNum, int oversamples, Scene3D scene) {
@@ -21,12 +21,12 @@ public class RayTracerThread implements Runnable{
 	@Override
 	public void run() {
 		// for each point...
-		for (int i = threadNum; i < scene.getCamera().film.width(); i+=RayTracer3D.THREAD_COUNT) {
+		for (int i = threadNum; i < scene.getCamera().getFilm().width(); i+=RayTracer3D.THREAD_COUNT) {
 			
 			if (i%100 == 0 && i > 0) {
 				System.out.print(" " + i);
 			}
-			for (int j = 0; j < scene.getCamera().film.height(); j++) {
+			for (int j = 0; j < scene.getCamera().getFilm().height(); j++) {
 
 				// Sample a bunch of points near it and average
 				Color3D pixelColorSamples[] = new Color3D[oversamples];
@@ -43,9 +43,32 @@ public class RayTracerThread implements Runnable{
 				Color3D pixelColor = Color3D.averageSet(pixelColorSamples);
 
 				// Paint pixel
-				scene.getCamera().film.drawPixel(i,j, pixelColor.toColor());
+				scene.getCamera().getFilm().drawPixel(i, j, pixelColor.toColor());
 			}
 		} // End of painting points
 	}
 
+	public int getThreadNum() {
+		return threadNum;
+	}
+
+	public void setThreadNum(int threadNum) {
+		this.threadNum = threadNum;
+	}
+
+	public int getOversamples() {
+		return oversamples;
+	}
+
+	public void setOversamples(int oversamples) {
+		this.oversamples = oversamples;
+	}
+
+	public Scene3D getScene() {
+		return scene;
+	}
+
+	public void setScene(Scene3D scene) {
+		this.scene = scene;
+	}
 }

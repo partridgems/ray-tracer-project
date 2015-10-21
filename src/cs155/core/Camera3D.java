@@ -16,11 +16,11 @@ import java.awt.Color;
 
 public class Camera3D {
 
-	private Point3D origin = new Point3D(0d, 0d, 0d);
-	public Canvas3D film;
-	public Transform3D transform;
-
+	private static final Point3D origin = new Point3D(0d, 0d, 0d);
 	public static final double SCREEN_DIST = -1d; // -1d default
+
+	private Canvas3D film;
+	private Transform3D transform;
 
 	public Camera3D(Canvas3D f) {
 		this(f, Transform3D.IDENTITY);
@@ -62,4 +62,19 @@ public class Camera3D {
 		film.drawPixel(i, j, c);
 	}
 
+    public Canvas3D getFilm() {
+        return film;
+    }
+
+    public void setFilm(Canvas3D film) {
+        this.film = film;
+    }
+
+    public Transform3D getTransform() {
+        return transform;
+    }
+
+    public void setTransform(Transform3D transform) {
+        this.transform = transform;
+    }
 }

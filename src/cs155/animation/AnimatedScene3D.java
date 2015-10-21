@@ -7,10 +7,18 @@ import cs155.core.Scene3D;
  * An animated schene containing an Animator interface. Initially null, must be added for animations.
  */
 public class AnimatedScene3D extends Scene3D {
-    public Animator3D anim = null;
+    private Animator3D anim = null;
+
     public AnimatedScene3D(String name){
         super(name);
     }
 
 
+    public Animator3D getAnim() {
+        return anim;
+    }
+
+    public void setAnim(Animator3D anim) {
+        this.anim = anim;
+    }
 }

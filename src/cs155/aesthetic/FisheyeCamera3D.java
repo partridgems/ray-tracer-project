@@ -21,7 +21,7 @@ import cs155.core.Canvas3D;
 
 public class FisheyeCamera3D extends Camera3D {
 
-	private Point3D origin = new Point3D(0d, 0d, 0d);
+	private static final Point3D origin = new Point3D(0d, 0d, 0d);
 
 	private double fishEyeAngle = Math.PI; // Angle of view for the lens in radians (default, pi)
 
@@ -31,8 +31,8 @@ public class FisheyeCamera3D extends Camera3D {
 
 	public FisheyeCamera3D(Canvas3D f, Transform3D tr) {
 		super(f);
-		this.film = f;
-		this.transform = tr;
+		this.setFilm(f);
+		this.setTransform(tr);
 	}
 
 	/**
@@ -51,11 +51,11 @@ public class FisheyeCamera3D extends Camera3D {
 		 */
 		
 		// First, we calculate a normalized u,v coordinate as in the traditional lens.
-		int k = film.height() - j;
+		int k = getFilm().height() - j;
 //		 double xjitter = Math.random()-0.5; // Jitter is useful when performing oversampling,
 //		 double yjitter = Math.random()-0.5; // but oversampling is not currently implemented
-		double u = 2 * (i - film.width() / 2d) / film.height();
-		double v = 2 * (k - film.height() / 2d) / film.height();
+		double u = 2 * (i - getFilm().width() / 2d) / getFilm().height();
+		double v = 2 * (k - getFilm().height() / 2d) / getFilm().height();
 		
 		// Next, find polar coordinates for u,v
 		double r = Math.sqrt(u*u + v*v);
@@ -72,7 +72,7 @@ public class FisheyeCamera3D extends Camera3D {
 		Point3D direction = new Point3D(Math.cos(theta)*Math.sin(rho), Math.sin(theta)*Math.sin(rho), -Math.cos(rho));
 		
 		Ray3D ray = new Ray3D(origin, direction);
-		return ray.applyTransform(this.transform);
+		return ray.applyTransform(this.getTransform());
 	}
 
 }

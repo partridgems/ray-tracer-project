@@ -13,8 +13,8 @@ import java.nio.file.Paths;
 
 public class RayTracer3D {
 
-	public static final int THREAD_COUNT = 6;
-	private static final int OVERSAMPLES = 1;
+	protected static final int THREAD_COUNT = Runtime.getRuntime().availableProcessors();
+	protected static final int ANTI_ALIASING = 1;
 
 	/**
 	 * Compute the color of the pixel corresponding to the intersection of the
@@ -37,53 +37,53 @@ public class RayTracer3D {
 		 * use the inside material
 		 */
 		Material m;
-		boolean outside = (hit.normal.dot(r.d) < 0);
+		boolean outside = (hit.getNormal().dot(r.getDirection()) < 0);
 		if (!outside) {
-			m = hit.obj.insideMat;
-			hit.normal = hit.normal.scale(-1d); // flip the normal when the ray
+			m = hit.getObj().getInsideMat();
+			hit.setNormal(hit.getNormal().scale(-1d)); // flip the normal when the ray
 												// hits on the inside
 		} else {
-			m = hit.obj.outsideMat;
+			m = hit.getObj().getOutsideMat();
 		}
 
 		// calculate the initial color of the pixel by setting it to the
 		// emissive color
-		Color3D pixelColor = m.emissive;
+		Color3D pixelColor = m.getEmissive();
 
 		// next calculate the ambient color of the pixel by multiplying
 		// and add it to the pixel color, ambient is independent of the lights
 
-		Color3D ambientColor = s.getAmbient().times(m.ambient);
+		Color3D ambientColor = s.getAmbient().times(m.getAmbient());
 		pixelColor = pixelColor.add(ambientColor);
 
 		// next, for each light which is not obscured at the hitPoint
 		// calculate its contribution to the pixel color and add it to the
 		// pixelcolor
 		for (int k = 0; k < s.getLights().size(); k++) {
-			if (isObscured(s.getLights().get(k), hit.hitPoint, hit.obj, s)) {
+			if (isObscured(s.getLights().get(k), hit.getHitPoint(), hit.getObj(), s)) {
 				continue;
 			}
 
-			Color3D localColor = calcColorForLight(r, hit.normal, hit.hitPoint,
+			Color3D localColor = calcColorForLight(r, hit.getNormal(), hit.getHitPoint(),
 					m, s.getLights().get(k));
 			pixelColor = pixelColor.add(localColor);
 		}
 
 
 		// finally, calculate the texture color
-		Color3D textureColor = m.texture.getColor(hit.tc);
-		// and average it with the pixel color using mat.texWeight
-		pixelColor = pixelColor.averageIn(textureColor, m.texWeight);
+		Color3D textureColor = m.getTexture().getColor(hit.getTc());
+		// and average it with the pixel color using mat.TEX_WEIGHT
+		pixelColor = pixelColor.averageIn(textureColor, m.getTexWeight());
 
-		if ((m.reflect > 0) && (depth > 0)) {
+		if ((m.getReflect() > 0) && (depth > 0)) {
 			Color3D reflectColor;
 			/*
 			 * calculate the reflection ray and move the starting point a little
 			 * above the surface to avoid self-intersection. Calculate the color
 			 * corresponding to that ray (with depth-1 level of recursion)
 			 * average in the reflectColor with the current pixel color using
-			 * the constant m.reflect. So m.reflect=0 means you would ignore the
-			 * color for the reflect ray and 0.5 would mean you average the
+			 * the constant m.REFLECT. So m.REFLECT=0 means you would ignore the
+			 * color for the REFLECT ray and 0.5 would mean you average the
 			 * material color and the reflected ray color.
 			 */
 
@@ -91,7 +91,7 @@ public class RayTracer3D {
 			Ray3D reflectRay = calcReflectionRay(r,hit);
 			reflectColor = computeColor(reflectRay,s,depth-1);
 
-			pixelColor = pixelColor.averageIn(reflectColor, m.reflect);
+			pixelColor = pixelColor.averageIn(reflectColor, m.getReflect());
 		}
 
 		return pixelColor;
@@ -108,9 +108,9 @@ public class RayTracer3D {
 	private static Ray3D calcReflectionRay(Ray3D r, RayHit h) {
 
 		// put in a few lines of code HERE for PA05!!
-		Point3D z = h.normal.scale(h.normal.dot(r.d));
-		Point3D d1 = r.d.subtract(z.scale(2));
-		Point3D p1 = h.hitPoint.add(d1.scale(0.0001));
+		Point3D z = h.getNormal().scale(h.getNormal().dot(r.getDirection()));
+		Point3D d1 = r.getDirection().subtract(z.scale(2));
+		Point3D p1 = h.getHitPoint().add(d1.scale(0.0001));
 		return new Ray3D(p1,d1);
 	}
 
@@ -135,7 +135,7 @@ public class RayTracer3D {
 		RayHit hit = scene.firstIntersection(r);
 		if (hit == RayHit.NO_HIT)
 			return false;
-		double distToObj = (hit.hitPoint.subtract(point)).length();
+		double distToObj = (hit.getHitPoint().subtract(point)).length();
 		return (distToLight > distToObj);
 	}
 
@@ -165,16 +165,16 @@ public class RayTracer3D {
 		lightVec = lightVec.normalize(); // vector from point to the light
 
 		// calculate the local ambient pixel color contribution
-		Color3D localAmbient = m.ambient.times(light.ambient);
+		Color3D localAmbient = m.getAmbient().times(light.ambient);
 
 		// calculate the local diffuse pixel color contribution
-		Color3D localDiffuse = calculateDiffuse(n, m.diffuse, light.diffuse,
+		Color3D localDiffuse = calculateDiffuse(n, m.getDiffuse(), light.diffuse,
                 lightVec);
 
 		// calculate the local specular pixel color contribution
 		// which requires the vector from the eye to the intersection point
-		Color3D localSpecular = calculateSpecular(r, n, p, m.specular,
-                m.hardness, light.specular, lightVec);
+		Color3D localSpecular = calculateSpecular(r, n, p, m.getSpecular(),
+				m.getHardness(), light.specular, lightVec);
 
 		// now combine all of the local colors (ambient, diffuse, specular)
 		Color3D localColor = localAmbient.add(localDiffuse).add(localSpecular);
@@ -229,7 +229,7 @@ public class RayTracer3D {
 			Color3D matSpecular, int matHardness, Color3D lightSpecular,
 			Point3D lightVec) {
 		Color3D localSpecular;
-		Point3D eyeVec = r.p.subtract(p).normalize();
+		Point3D eyeVec = r.getPoint().subtract(p).normalize();
 		double specularIntensity = Light3D.specular(lightVec, n, eyeVec,
 				matHardness);
 		localSpecular = matSpecular.times(lightSpecular).scale(
@@ -245,14 +245,14 @@ public class RayTracer3D {
 	 * color to the corresponding pixel on the film
 	 **/
 	public static void drawScene(Scene3D scene) {
-		double h = scene.getCamera().film.height(), w = scene.getCamera().film.width();
+		double h = scene.getCamera().getFilm().height(), w = scene.getCamera().getFilm().width();
 		System.out.println("h= " + h + " w= " + w);
 		scene.setReflectionDepth(15);
 
 		// Start up THEAD_COUNT threads to do rendering and join on them
 		Thread[] tarray = new Thread[THREAD_COUNT];
 		for (int tnum = 0; tnum < THREAD_COUNT; tnum++) {
-			tarray[tnum] = new Thread(new RayTracerThread(tnum, OVERSAMPLES, scene));
+			tarray[tnum] = new Thread(new RayTracerThread(tnum, ANTI_ALIASING, scene));
 			tarray[tnum].start();
 		}
 		
@@ -293,8 +293,8 @@ public class RayTracer3D {
 		String sceneName = scene.getName();
 
         int count = 0;
-		while (scene.anim.hasNext()) {  //Keeps drawing the scene as long as the animator can do more.
-			drawScene(scene.anim.next());
+		while (scene.getAnim().hasNext()) {  //Keeps drawing the scene as long as the animator can do more.
+			drawScene(scene.getAnim().next());
 		}
         scene.done();
 
@@ -302,8 +302,8 @@ public class RayTracer3D {
 
 	public static void main(String[] args) {
 		RayHit h = new RayHit(null, 0, null, null, null);
-		h.hitPoint = new Point3D(0, 0, 0);
-		h.normal = new Point3D(0, 1, 0);
+		h.setHitPoint(new Point3D(0, 0, 0));
+		h.setNormal(new Point3D(0, 1, 0));
 		Ray3D r = new Ray3D(new Point3D(-1, 1, -1), new Point3D(1, -1, 1));
 		Ray3D s = calcReflectionRay(r, h);
 		System.out.println("the reflection is " + s);

@@ -59,13 +59,13 @@ public class Triangle3D extends Object3D {
 	 */
 	@Override
 	public RayHit rayIntersectObj(Ray3D ray) {
-		Point3D s = ray.p.subtract(p0);
-		Point3D s1 = ray.d.cross(e2);
+		Point3D s = ray.getPoint().subtract(p0);
+		Point3D s1 = ray.getDirection().cross(e2);
 		Point3D s2 = s.cross(e1);
 		double s1e1 = s1.dot(e1);
 		double s2e2 = s2.dot(e2);
 		double s1s = s1.dot(s);
-		double s2d = s2.dot(ray.d);
+		double s2d = s2.dot(ray.getDirection());
 		if (s1e1 == 0)
 			return RayHit.NO_HIT;
 		double t = s2e2 / s1e1;
@@ -80,7 +80,7 @@ public class Triangle3D extends Object3D {
 		// Point3D nt0 = ns0.add(ns1);
 		// Point3D nt1 = nt0.add(ns2);
 		// Point3D n = nt1.normalize();
-		Point3D hitPoint = ray.p.add(ray.d.scale(t));
+		Point3D hitPoint = ray.getPoint().add(ray.getDirection().scale(t));
 
 		TextureCoordinate tc = TextureCoordinate.interpolate(b1, b2, tc0, tc1,
 				tc2);

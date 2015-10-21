@@ -15,27 +15,122 @@ import cs155.core.Color3D;
  **/
 
 public class Material {
-	public static Material defaultMat = new Material();
 
-	public Color3D emissive = Color3D.BLACK, ambient = Color3D.BLACK,
-			diffuse = Color3D.WHITE.scale(0.5d), specular = Color3D.WHITE;
-	public int hardness = 25;
-	public double reflect = 0.05, refract = 0.0;
-	public double texWeight = 0.0; // ratio of texture to material color
-	public double IOR = 1.0;
-	public Texture texture = Texture.WHITE;
+	public static final Material DEFAULT_MAT = new Material();
+
+	private Color3D emissive;
+	private Color3D ambient;
+	private Color3D diffuse;
+	private Color3D specular;
+	private int hardness;
+
+    private double reflect;
+    private double refract;
+    private double texWeight; // ratio of texture to material color
+    private double ior;
+    private Texture texture;
 
 	public Material() {
-		;
+        this(Color3D.BLACK, Color3D.BLACK, Color3D.WHITE.scale(.5d), Color3D.WHITE, 25);
 	}
 
 	public Material(Color3D emissive, Color3D ambient, Color3D diffuse,
 			Color3D specular, int hardness) {
-		this.emissive = emissive;
-		this.ambient = ambient;
-		this.diffuse = diffuse;
-		this.specular = specular;
-		this.hardness = hardness;
-
+        this(emissive, ambient, diffuse, specular, hardness, .05, 0, 0, 1, Texture.WHITE);
 	}
+
+    public Material(Color3D emissive, Color3D ambient, Color3D diffuse,
+                    Color3D specular, int hardness, double reflect, double refract,
+                    double texWeight, double ior, Texture texture) {
+        this.emissive = emissive;
+        this.ambient = ambient;
+        this.diffuse = diffuse;
+        this.specular = specular;
+        this.hardness = hardness;
+        this.reflect = reflect;
+        this.refract = refract;
+        this.texWeight = texWeight;
+        this.ior = ior;
+        this.texture = texture;
+    }
+
+    public Color3D getEmissive() {
+        return emissive;
+    }
+
+    public void setEmissive(Color3D emissive) {
+        this.emissive = emissive;
+    }
+
+    public Color3D getAmbient() {
+        return ambient;
+    }
+
+    public void setAmbient(Color3D ambient) {
+        this.ambient = ambient;
+    }
+
+    public Color3D getDiffuse() {
+        return diffuse;
+    }
+
+    public void setDiffuse(Color3D diffuse) {
+        this.diffuse = diffuse;
+    }
+
+    public Color3D getSpecular() {
+        return specular;
+    }
+
+    public void setSpecular(Color3D specular) {
+        this.specular = specular;
+    }
+
+    public int getHardness() {
+        return hardness;
+    }
+
+    public void setHardness(int hardness) {
+        this.hardness = hardness;
+    }
+
+    public double getReflect() {
+        return reflect;
+    }
+
+    public void setReflect(double reflect) {
+        this.reflect = reflect;
+    }
+
+    public double getRefract() {
+        return refract;
+    }
+
+    public void setRefract(double refract) {
+        this.refract = refract;
+    }
+
+    public double getTexWeight() {
+        return texWeight;
+    }
+
+    public void setTexWeight(double texWeight) {
+        this.texWeight = texWeight;
+    }
+
+    public double getIor() {
+        return ior;
+    }
+
+    public void setIor(double ior) {
+        this.ior = ior;
+    }
+
+    public Texture getTexture() {
+        return texture;
+    }
+
+    public void setTexture(Texture texture) {
+        this.texture = texture;
+    }
 }

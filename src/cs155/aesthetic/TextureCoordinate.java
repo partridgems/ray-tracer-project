@@ -5,7 +5,9 @@ package cs155.aesthetic;
  * location of the intersection in 2D texture space
  **/
 public class TextureCoordinate {
-	double x, y; // raw coordinates
+	// Raw coordinates
+	private double x;
+	private double y;
 
 	public TextureCoordinate(double x, double y) {
 		this.x = x;
@@ -27,4 +29,19 @@ public class TextureCoordinate {
 		
 	}
 
+	public double getX() {
+		return x;
+	}
+
+	public void setX(double x) {
+		this.x = x;
+	}
+
+	public double getY() {
+		return y;
+	}
+
+	public void setY(double y) {
+		this.y = y;
+	}
 }

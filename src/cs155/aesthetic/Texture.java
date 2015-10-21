@@ -7,11 +7,17 @@ import cs155.core.Color3D;
  * Color3D objects Textures can be scaled and translated.
  **/
 public class Texture {
-	public final static Texture WHITE = new Texture();
-	public double uScale = 1.0, vScale = 1.0, uOffset = 0.0, vOffset = 0.0;;
+	public static final Texture WHITE = new Texture();
+	private double uScale;
+	private double vScale;
+	private double uOffset;
+	private double vOffset;
 
 	public Texture() {
-		;
+		this.uScale = 1.0;
+		this.vScale = 1.0;
+		this.uOffset = 0.0;
+		this.vOffset = 0.0;
 	}
 
 	/**
@@ -31,4 +37,35 @@ public class Texture {
 		vOffset += y;
 	}
 
+	public double getuScale() {
+		return uScale;
+	}
+
+	public void setuScale(double uScale) {
+		this.uScale = uScale;
+	}
+
+	public double getvScale() {
+		return vScale;
+	}
+
+	public void setvScale(double vScale) {
+		this.vScale = vScale;
+	}
+
+	public double getuOffset() {
+		return uOffset;
+	}
+
+	public void setuOffset(double uOffset) {
+		this.uOffset = uOffset;
+	}
+
+	public double getvOffset() {
+		return vOffset;
+	}
+
+	public void setvOffset(double vOffset) {
+		this.vOffset = vOffset;
+	}
 }

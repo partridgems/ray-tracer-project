@@ -11,7 +11,6 @@ public class PngCanvas3D implements Canvas3D {
 	
 	private BufferedImage bufferedImage;
 
-	
 	/**
 	 * Creates a canvas for drawing to a png file
 	 * Without film, this canvas expects user to draw directly on the canvas via
