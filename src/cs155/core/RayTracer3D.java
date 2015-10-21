@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 
 public class RayTracer3D {
 
-	protected static final int THREAD_COUNT = Runtime.getRuntime().availableProcessors();
+	protected static final int THREAD_COUNT = 3 * Runtime.getRuntime().availableProcessors();
 	protected static final int ANTI_ALIASING = 1;
 
 	/**
