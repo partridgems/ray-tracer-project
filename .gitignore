@@ -24,10 +24,6 @@ hs_err_pid*
 # IntelliJ
 *.iml
 
-# Eclipse
-.classpath
-.project
-
 # MISC
 *.swp
 
