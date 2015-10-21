@@ -48,7 +48,7 @@ public class DepthFieldCamera3D extends Camera3D {
 		int k = film.height() - j;
 		double xjitter = Math.random()-0.5;
 		double yjitter = Math.random()-0.5;
-		double u = 2 * (i + xjitter - film.width() / 2d) / film.width();
+		double u = 2 * (i + xjitter - film.width() / 2d) / film.height();
 		double v = 2 * (k + yjitter - film.height() / 2d) / film.height();
 		
 		Ray3D r = new Ray3D(origin, new Point3D(u, v, SCREEN_DIST));
