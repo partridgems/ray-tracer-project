@@ -25,7 +25,12 @@ public class DemoScene9 {
     public static void drawOnPNG() {
     	Scene3D scene = new Scene3D("DemoScene9");
     	initScene(scene);
-    	RayTracer3D.drawScene(scene);
+    	try {
+			RayTracer3D.drawSceneSeries(scene, 5);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     	System.out.println("\nDone.");
     }
 
