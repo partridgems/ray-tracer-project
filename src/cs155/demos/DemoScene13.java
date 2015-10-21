@@ -71,12 +71,12 @@ public class DemoScene13 {
         mat3.setTexWeight(0.25);
         mat3.setReflect(0.0);
 
-        ImageTexture tex4 = new ImageTexture("images/basketball.png");
+        ImageTexture tex4 = new ImageTexture("images/metal floor.jpg");
         tex4.scale(50, 50);
         mat4.setTexture(tex4);
         mat4.setTexWeight(0.95); //75;
 
-        ImageTexture tex6 = new ImageTexture("images/earth.png");
+        ImageTexture tex6 = new ImageTexture("images/ea.png");
         tex6.scale(50, 50);
         mat6.setTexture(tex6);
         mat6.setTexWeight(0.95); //75;
@@ -112,7 +112,7 @@ public class DemoScene13 {
         //scene.add(cyl2);
         //	scene.add(cyl3);
         scene.add(sp1);
-        scene.add(sp2);
+        //scene.add(sp2);
         scene.add(pl1);
         //scene.add(pl2);
         scene.add(light1);
@@ -122,7 +122,7 @@ public class DemoScene13 {
         scene.add(cam);
 
         scene.setAnim(new Animator3D() {    //Implemented Animator3D methods, which allows for animations.
-            int count = 0;
+            double count = 0;
             int h = 2;
             int k = 10;
 
@@ -133,11 +133,10 @@ public class DemoScene13 {
 
             @Override
             public Scene3D next() {
-                int x = count;
-                int y = -(x - h) ^ 2 + k;
+                double x = count;
+                double y = x;
                 sp2.applyTrans(sp2.getTransform().translate(x, 0, 0));
-                sp1.applyTrans(sp1.getTransform().translate(0, 0, x));
-                count++;
+                count+=0.1;
                 return scene;
             }
         });
