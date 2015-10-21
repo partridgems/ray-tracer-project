@@ -8,6 +8,7 @@ public class DemoScene6 {
 
 	public static void main(String[] args) throws InterruptedException {
 
+		System.setProperty("java.awt.headless", "true"); // Prevents stupid window from opening when running the program
 		System.out.println("getting ready to draw scene");
 		Scene3D scene = initScene2();
 

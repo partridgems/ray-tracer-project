@@ -19,7 +19,6 @@ public class PngCanvas3D implements Canvas3D {
 	 * 
 	 * @param width Width in pixels of the image
 	 * @param height Height in pixels of the image
-	 * @param filename File to write output
 	 */
 	public PngCanvas3D(int width, int height) {
 		this.bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -42,6 +41,7 @@ public class PngCanvas3D implements Canvas3D {
 
 	@Override
 	public void refresh(String name) {
+		System.setProperty("java.awt.headless", "true"); // Prevents stupid window from opening when writing to a file
 		try {
 			File file = new File(name + ".png");
 			ImageIO.write(bufferedImage, "PNG", file);
@@ -49,6 +49,11 @@ public class PngCanvas3D implements Canvas3D {
 			e.printStackTrace();
 		}
 	}
-	
+
+    @Override
+    public void done() {
+
+    }
+
 
 }

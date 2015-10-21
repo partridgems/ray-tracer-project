@@ -11,10 +11,10 @@ public class DemoScene3 {
     
     /**
      * this creates a window to demo the Canvas3D object
-     * @param args
-     * @throws InterruptedException 
+     * @param args command line arguments
      */
     public static void main(String[] args) {
+		System.setProperty("java.awt.headless", "true"); // Prevents stupid window from opening when running the program
     	drawOnPNG();
     }
     

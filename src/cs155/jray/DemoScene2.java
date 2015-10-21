@@ -9,6 +9,7 @@ package cs155.jray;
 public class DemoScene2 {
 
 	public static void main(String[] args) {
+		System.setProperty("java.awt.headless", "true"); // Prevents stupid window from opening when running the program
 		System.out.println("getting ready to draw scene");
 		Scene3D scene = initScene();
 		RayTracer3D.drawScene(scene);

@@ -73,7 +73,7 @@ public class RayTracer3D {
 		pixelColor = pixelColor.averageIn(textureColor, m.texWeight);
 
 		if ((m.reflect > 0) && (depth > 0)) {
-			Color3D reflectColor = Color3D.BLACK;
+			Color3D reflectColor;
 			/*
 			 * calculate the reflection ray and move the starting point a little
 			 * above the surface to avoid self-intersection. Calculate the color
@@ -98,9 +98,9 @@ public class RayTracer3D {
 	 * calculate the ray r' that you obtain by reflecting the ray r off of the
 	 * hitpoint h
 	 * 
-	 * @param r
-	 * @param h
-	 * @return
+	 * @param r the ray
+	 * @param h the ray hit
+	 * @return a reflected ray
 	 */
 	private static Ray3D calcReflectionRay(Ray3D r, RayHit h) {
 
@@ -117,10 +117,10 @@ public class RayTracer3D {
 	 * intersection of the point with the object it is on (with distance zero or
 	 * close to zero!) that one shouldn't count as obscuring the light...
 	 * 
-	 * @param light
-	 * @param point
-	 * @param scene
-	 * @return
+	 * @param light the light coming in
+	 * @param point the point of intersection
+	 * @param scene the scene in question
+	 * @return boolean determines whether the point is obscured
 	 */
 	private static boolean isObscured(Light3D light, Point3D point,
 			Object3D obj, Scene3D scene) {
@@ -151,7 +151,7 @@ public class RayTracer3D {
 	 *            the material of the object
 	 * @param light
 	 *            the light being considered
-	 * @return
+	 * @return a new Color3D object denoting color
 	 */
 	public static Color3D calcColorForLight(Ray3D r, Point3D n, Point3D p,
 			Material m, Light3D light) {
@@ -186,11 +186,11 @@ public class RayTracer3D {
 	 * multiplying it by the diffuse material color and the diffuse lighting
 	 * color
 	 * 
-	 * @param n
-	 * @param matColor
-	 * @param lightColor
-	 * @param lightVec
-	 * @return
+	 * @param n the point to calculate diffusion at
+	 * @param matColor the mat color
+	 * @param lightColor the light color
+	 * @param lightVec the light vector
+	 * @return the Color3D object denoting the color
 	 */
 	private static Color3D calculateDiffuse(Point3D n, Color3D matColor,
 			Color3D lightColor, Point3D lightVec) {
@@ -220,7 +220,7 @@ public class RayTracer3D {
 	 *            the specular color of the light
 	 * @param lightVec
 	 *            the vector pointing to the light
-	 * @return
+	 * @return Color3D object denoting color
 	 */
 	private static Color3D calculateSpecular(Ray3D r, Point3D n, Point3D p,
 			Color3D matSpecular, int matHardness, Color3D lightSpecular,
@@ -270,13 +270,31 @@ public class RayTracer3D {
 	public static void drawSceneSeries(Scene3D scene, int numScenes) throws IOException {
 		// Get the scene name for the folder
 		String sceneName = scene.getName();
-		
+	    if (Files.exists(Paths.get(sceneName))){
+            Files.delete(Paths.get(sceneName));
+        }
 		Files.createDirectory(Paths.get(sceneName));
 		
 		for (; scene.getSceneNum() <= numScenes; scene.incremementSceneNum()) {
 			scene.setName(sceneName + "/" + scene.getSceneNum());
 			drawScene(scene);
 		}
+	}
+
+	/**
+	 * Draw an animated gif of scenes, calling the animate() method on a scene to get to the next scene
+	 * @throws IOException
+	 */
+	public static void drawAnimatedGif(AnimatedScene3D scene) throws IOException {
+		// Get the scene name for the folder
+		String sceneName = scene.getName();
+
+        int count = 0;
+		while (scene.anim.hasNext()) {  //Keeps drawing the scene as long as the animator can do more.
+			drawScene(scene.anim.next());
+		}
+        scene.done();
+
 	}
 
 	public static void main(String[] args) {

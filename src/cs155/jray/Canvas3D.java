@@ -8,11 +8,13 @@ package cs155.jray;
  **/
 
 public interface Canvas3D {
-	public int height();
+	int height();
 
-	public int width();
+	int width();
 
-	public void drawPixel(int i, int j, java.awt.Color c);
+	void drawPixel(int i, int j, java.awt.Color c);
 
-	public void refresh(String name);
+	void refresh(String name);
+
+	void done();
 }

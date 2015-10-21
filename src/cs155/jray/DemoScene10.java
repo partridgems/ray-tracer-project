@@ -8,25 +8,24 @@ import java.io.IOException;
  * @author Michael
  *
  */
-public class DemoScene9 {
+public class DemoScene10 {
     
     /**
      * this creates a window to demo the Canvas3D object
-     * @param args command line arguments
      */
     public static void main(String[] args) {
-		System.setProperty("java.awt.headless", "true"); // Prevents stupid window from opening when running the program
-    	drawOnPNG();
+        System.setProperty("java.awt.headless", "true"); // Prevents stupid window from opening when running the program
+        drawOnPNG();
     }
     
     /**
      * This method uses the alternate PngCanvas3D to draw the scene in a png file for better portability.
      */
     public static void drawOnPNG() {
-    	Scene3D scene = new Scene3D("DemoScene9");
+    	AnimatedScene3D scene = new AnimatedScene3D("DemoScene10");
     	initScene(scene);
     	try {
-			RayTracer3D.drawSceneSeries(scene, 5);
+			RayTracer3D.drawAnimatedGif(scene);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -35,7 +34,7 @@ public class DemoScene9 {
     }
 
 
-	private static void initScene(Scene3D scene){
+	private static void initScene(AnimatedScene3D scene){
 
 		Material mat1 = new Material(new Color3D(0d,0d,0d), new Color3D(0d,0d,0d), new Color3D(1d,1d,1d), new Color3D(1d,1d,1d),200);
 		Material mat2 = new Material(new Color3D(0d,0d,0d), new Color3D(0d,0d,0d), new Color3D(1d,1d,0d), new Color3D(1d,1d,1d),200);
@@ -84,7 +83,7 @@ public class DemoScene9 {
 		
 		cyl2.insideMat = mat1; // here we change the material on the inside of cylinder 2
 		
-    	PngCanvas3D mc = new PngCanvas3D(800, 800);
+    	GifCanvas3D mc = new GifCanvas3D("DemoScene10", 800, 800);
 		Transform3D camTransf = new Transform3D();
 		// this transformation takes a few from above and to the right looking down at the cylinders
 		// comment it out to see the view from the origin..
@@ -104,6 +103,21 @@ public class DemoScene9 {
 //		scene.add(light3);
 //		scene.add(light4);
 		scene.add(cam);
+
+        scene.anim = new Animator3D() {
+            int count = 0;
+            @Override
+            public boolean hasNext() {
+                return count<20;
+            }
+
+            @Override
+            public Scene3D next() {
+                sp2.applyTrans(cyl2.transform.translate(count*2,0,0));
+                count++;
+                return scene;
+            }
+        };
 
 	}
 

@@ -25,7 +25,7 @@ public class Scene3D {
 	private String name;
 
 	private Scene3D() {
-        setObjs(new ArrayList<Object3D>());
+        setObjs(new ArrayList<>());
         setLights(new ArrayList<>());
         setReflectionDepth(2);
         setAmbient(new Color3D(0d, 0d, 0.4d));
@@ -91,6 +91,13 @@ public class Scene3D {
      */
     public void save() {
     	this.camera.film.refresh(this.name);
+    }
+
+    /**
+     * Should be called when the image is done (closes any unclosed resources)
+     */
+    public void done() {
+        this.camera.film.done();
     }
 
     /** Here we create the scene elements as instance variables **/

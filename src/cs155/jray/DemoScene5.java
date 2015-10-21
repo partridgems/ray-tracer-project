@@ -8,6 +8,7 @@ public class DemoScene5 {
     
 
     public static void main(String[] args) {
+		System.setProperty("java.awt.headless", "true"); // Prevents stupid window from opening when running the program
     	Scene3D scene = new Scene3D("DemoScene5"); initScene(scene);
     	RayTracer3D.drawScene(scene);
     	System.out.println("\nDone.");

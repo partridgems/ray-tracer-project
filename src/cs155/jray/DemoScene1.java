@@ -11,7 +11,7 @@ public class DemoScene1 {
 	/**
 	 * this creates a window to demo the Canvas3D object
 	 * 
-	 * @param args
+	 * @param args command line arguments
 	 * @throws InterruptedException
 	 */
 	public static void main(String[] args) throws InterruptedException {
@@ -21,6 +21,8 @@ public class DemoScene1 {
 		 */
 		Scene3D scene = initScene2();
 
+
+		System.setProperty("java.awt.headless", "true"); // Prevents stupid window from opening when running the program
 		System.out.println("getting ready to draw scene");
 		Thread.sleep(200L);
 
