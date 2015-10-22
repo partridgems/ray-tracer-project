@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 public class RayTracer3D {
 
 	protected static final int THREAD_COUNT = 3 * Runtime.getRuntime().availableProcessors();
-	protected static final int ANTI_ALIASING = 1;
+	protected static final int ANTI_ALIASING = 100;
 
 	/**
 	 * Compute the color of the pixel corresponding to the intersection of the
