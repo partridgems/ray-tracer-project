@@ -137,7 +137,7 @@ public class DemoScene15 {
             	// Moves the sun right to left across the sky
             	sun.applyTrans(new Transform3D().rotateZ((float)-40/totalFrames*frameSpeed));
             	// Moves the sun a little south and back (northern hemisphere
-            	double sunZshift = -1*Math.cos((double)frameNum/totalFrames*Math.PI);
+            	double sunZshift = -1*Math.cos((double)frameNum/totalFrames/2*Math.PI);
             	sun.applyTrans(new Transform3D().translate(0, 0, sunZshift));
             	// Brightens the sun near the beginning of the day and darkens it at the end
             	if (frameNum <= .2 * totalFrames) { // Morning
@@ -151,12 +151,13 @@ public class DemoScene15 {
                 skyTex.translate(1, -.2);
                 
                 // Move the camera into the scene
-                double distance = 6.0 * frameNum/totalFrames;
-                double leftRightAmp = 1;
-                double upDownAmp = 1;
                 cam.setTransform(new Transform3D().translate(0, 5, 8).rotateX(5)); // Start the camera here
-//                Transform3D walk = new Transform3D().translate( leftRightAmp * Math.cos(2*distance + Math.PI/2),
-//                		upDownAmp * Math.sin(Math.PI/2 - 4*distance), -distance );
+                double distance = 6.0 * frameNum/totalFrames;
+//                double leftRightAmp = .18;
+//                double upDownAmp = .3;
+//                double walkPace = 4;
+//                Transform3D walk = new Transform3D().translate( leftRightAmp * Math.cos(walkPace*distance + Math.PI/2),
+//                		upDownAmp * Math.sin(Math.PI/2 - 2*walkPace*distance), -distance );
                 double t = distance * 2.5 * Math.PI;
                 Transform3D walk = new Transform3D().translate(0, .2 * (1 - Math.cos(t)), -.2 * (t - Math.sin(t)));
                 cam.apply(walk);
