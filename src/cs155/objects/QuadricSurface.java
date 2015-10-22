@@ -4,8 +4,6 @@ import cs155.aesthetic.Material;
 import cs155.aesthetic.TextureCoordinate;
 import cs155.core.*;
 
-import java.util.Optional;
-
 /**
  * Represents an arbitrary quartic surface. Techniques for finding ray intersection and normal
  * are borrowed from http://euclid.nmu.edu/~bpeterso/CS446-Handouts/Notes/CS446_Note_7.pdf
@@ -13,12 +11,15 @@ import java.util.Optional;
  * Created by kahliloppenheimer on 10/15/15.
  */
 public class QuadricSurface extends Object3D {
+
+    private static Point3D NO_MIN_BOUNDS = new Point3D(Double.MIN_VALUE, Double.MIN_VALUE, Double.MIN_VALUE);
+    private static Point3D NO_MAX_BOUNDS = new Point3D(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
     // coefficients of a general Quartic surface given the general form:
     // ax2 + by2 + cz2 + dyz + exz + fxy + gx + hy + iz + j = 0
     private final double a, b, c, d, e, f, g, h, i, j;
     // Optional min/max bounds for surface
-    private Optional<Point3D> minBounds;
-    private Optional<Point3D> maxBounds;
+    private Point3D minBounds;
+    private Point3D maxBounds;
 
     public QuadricSurface(double a, double b, double c, double d, double e, double f, double g, double h, double i, double j) {
         this.a = a;
@@ -34,7 +35,8 @@ public class QuadricSurface extends Object3D {
         Material m = new Material(Color3D.BLACK, Color3D.BLACK, Color3D.WHITE.scale(0.5), Color3D.WHITE, 25);
         this.setInsideMat(m);
         this.setOutsideMat(m);
-        this.minBounds = this.maxBounds = Optional.empty();
+        this.minBounds = NO_MIN_BOUNDS;
+        this.maxBounds = NO_MAX_BOUNDS;
     }
 
 
@@ -128,8 +130,34 @@ public class QuadricSurface extends Object3D {
      * @param maxBounds
      */
     public void setBounds(Point3D minBounds, Point3D maxBounds) {
-        this.minBounds = Optional.of(minBounds);
-        this.maxBounds = Optional.of(maxBounds);
+        this.minBounds = minBounds;
+        this.maxBounds = maxBounds;
+    }
+
+    /**
+     * Adds the passed deltas to the min/max bounds
+     *
+     * @param minDelta
+     * @param maxDelta
+     */
+    public void changeBounds(Point3D minDelta, Point3D maxDelta) {
+        this.minBounds = this.minBounds.add(minDelta);
+        this.maxBounds = this.maxBounds.add(maxDelta);
+
+        if (minBounds == NO_MIN_BOUNDS) {
+            this.minBounds = minDelta;
+        }
+        if (maxBounds == NO_MAX_BOUNDS) {
+            this.maxBounds = maxDelta;
+        }
+    }
+
+    public Point3D getMinBounds() {
+        return this.minBounds;
+    }
+
+    public Point3D getMaxBounds() {
+        return this.maxBounds;
     }
 
     /**
@@ -140,18 +168,12 @@ public class QuadricSurface extends Object3D {
      */
     private boolean isWithinBounds(Point3D point) {
         // Check if point is above min bounds
-        if (minBounds.isPresent()) {
-            Point3D min = minBounds.get();
-            if (point.getX() < min.getX() || point.getY() < min.getY() || point.getZ() < min.getZ()) {
-                return false;
-            }
+        if (point.getX() < minBounds.getX() || point.getY() < minBounds.getY() || point.getZ() < minBounds.getZ()) {
+            return false;
         }
         // Check if point is below max bounds
-        if (maxBounds.isPresent()) {
-            Point3D max = maxBounds.get();
-            if (point.getX() > max.getX() || point.getY() > max.getY() || point.getZ() > max.getZ()) {
-                return false;
-            }
+        if (point.getX() > maxBounds.getX() || point.getY() > maxBounds.getY() || point.getZ() > maxBounds.getZ()) {
+            return false;
         }
         return true;
     }
