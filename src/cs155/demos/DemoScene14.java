@@ -41,7 +41,7 @@ public class DemoScene14 {
 
 	private static void initScene(AnimatedScene3D scene){
 		// Camera and canvas setup
-		GifCanvas3D mc = new GifCanvas3D("DemoScene14", 500, 400);
+		GifCanvas3D mc = new GifCanvas3D("DemoScene14", 1000, 800);
 		Camera3D cam = new DepthFieldCamera3D(mc, 8, 10);
 		cam.apply(new Transform3D().translate(0, 5, 8).rotateX(15));
 		scene.add(cam);
@@ -127,7 +127,7 @@ public class DemoScene14 {
 		scene.setAnim(new Animator3D() {    //Implemented Animator3D methods, which allows for animations.
             int frameNum = 0; 
             int totalFrames = 24*10;
-            double frameSpeed = 6;
+            double frameSpeed = 1;
 
             @Override
             public boolean hasNext() {
