@@ -155,10 +155,10 @@ public class DemoScene15 {
                 double leftRightAmp = 1;
                 double upDownAmp = 1;
                 cam.setTransform(new Transform3D().translate(0, 5, 8).rotateX(5)); // Start the camera here
-//                Transform3D walk = new Transform3D().translate( leftRightAmp * Math.cos(distance + Math.PI/2),
-//                		upDownAmp * Math.sin(Math.PI/2 - 2*distance), -distance );
-                double t = distance * 2.5 * Math.PI;
-                Transform3D walk = new Transform3D().translate(0, .2 * (1 - Math.cos(t)), -.2 * (t - Math.sin(t)));
+                Transform3D walk = new Transform3D().translate( leftRightAmp * Math.cos(distance + Math.PI/2),
+                		upDownAmp * Math.sin(Math.PI/2 - 2*distance), -distance );
+//                double t = distance * 2.5 * Math.PI;
+//                Transform3D walk = new Transform3D().translate(0, .2 * (1 - Math.cos(t)), -.2 * (t - Math.sin(t)));
                 cam.apply(walk);
                 
             	frameNum += frameSpeed;
