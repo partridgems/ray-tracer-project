@@ -21,10 +21,10 @@ import cs155.objects.Sphere3D;
 import cs155.objects.Triangle3D;
 
 /**
- * Mike's Animation Demo
+ * Mike's Depth of Field Demo
  *
  */
-public class DemoScene14 {
+public class DemoScene15 {
     
 
     public static void main(String[] args) {
@@ -42,7 +42,7 @@ public class DemoScene14 {
 	private static void initScene(AnimatedScene3D scene){
 		// Camera and canvas setup
 		GifCanvas3D mc = new GifCanvas3D("DemoScene14", 750, 600);
-		Camera3D cam = new DepthFieldCamera3D(mc, 8, 10);
+		Camera3D cam = new DepthFieldCamera3D(mc, 3, 8);
 		cam.apply(new Transform3D().translate(0, 5, 8).rotateX(15));
 		scene.add(cam);
 		
@@ -59,17 +59,13 @@ public class DemoScene14 {
 		Cylinder3D[] leftWall = new Cylinder3D[5];
 		for (int i = 0; i < 5; i++) {
 			leftWall[i] = new Cylinder3D(new Point3D(-4, 0, 2*i-4), new Point3D(0, 1, 0), .5, 10, colMat);
-		}
-		for (Cylinder3D c : leftWall) {
-			scene.add(c);
+			scene.add(leftWall[i]);
 		}
 		Cylinder3D[] rightWall = new Cylinder3D[5];
 		for (int i = 0; i < 5; i++) {
 			colTex.translate(Math.random()*120, Math.random()*70);
 			rightWall[i] = new Cylinder3D(new Point3D(4, 0, 2*i-4), new Point3D(0, 1, 0), .5, 10, colMat);
-		}
-		for (Cylinder3D c : rightWall) {
-			scene.add(c);
+			scene.add(rightWall[i]);
 		}
 		
 		// A floor
@@ -122,12 +118,12 @@ public class DemoScene14 {
 		Material sphereMat = new Material(Color3D.BLACK, Color3D.BLACK, Color3D.WHITE, Color3D.WHITE, 400);
 		sphereMat.setReflect(1);
 		sph.setOutsideMat(sphereMat);
-		scene.add(sph);
+//		scene.add(sph);
 		
 		scene.setAnim(new Animator3D() {    //Implemented Animator3D methods, which allows for animations.
             int frameNum = 0; 
             int totalFrames = 24*10;
-            double frameSpeed = 1;
+            double frameSpeed = 24;
 
             @Override
             public boolean hasNext() {
@@ -153,6 +149,15 @@ public class DemoScene14 {
             	}
                 // Moves the clouds
                 skyTex.translate(1, -.2);
+                
+                // Move the camera into the scene
+                double distance = 9 * frameNum/totalFrames;
+                double leftRightAmp = 1;
+                double upDownAmp = 1;
+                cam.setTransform(new Transform3D().translate(0, 5, 8).rotateX(15)); // Start the camera here
+                Transform3D walk = new Transform3D().translate( leftRightAmp * Math.cos(distance + Math.PI/2),
+                		upDownAmp * Math.sin(Math.PI/2 - 2*distance), distance );
+                cam.apply(walk);
                 
             	frameNum += frameSpeed;
                 return scene;
