@@ -199,7 +199,6 @@ public class RayTracer3D {
 			Color3D lightColor, Point3D lightVec) {
 		Color3D localDiffuse;
 		double diffuseIntensity = Light3D.diffuse(lightVec, n);
-        matColor = Color3D.WHITE;
 		localDiffuse = matColor.times(lightColor).scale(diffuseIntensity);
 		return localDiffuse;
 	}
@@ -245,7 +244,6 @@ public class RayTracer3D {
 	 * color to the corresponding pixel on the film
 	 **/
 	public static void drawScene(Scene3D scene) {
-		double h = scene.getCamera().getFilm().height(), w = scene.getCamera().getFilm().width();
 		scene.setReflectionDepth(15);
 
 		// Start up THEAD_COUNT threads to do rendering and join on them
