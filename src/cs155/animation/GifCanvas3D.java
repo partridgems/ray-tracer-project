@@ -12,7 +12,7 @@ import javax.imageio.stream.*;
 public class GifCanvas3D implements Canvas3D {
 
     private GifSequenceWriter writer;
-    private final int FRAME_RATE = 1; // Frame rate
+    private final int FRAME_RATE = 24; // Frame rate
     private BufferedImage currentImage; // Current image to write
 
 
@@ -36,7 +36,7 @@ public class GifCanvas3D implements Canvas3D {
         // between frames, which loops continuously
         try {
             ImageOutputStream output = new FileImageOutputStream(file);
-            writer = new GifSequenceWriter(output, this.currentImage.getType(), FRAME_RATE, true);
+            writer = new GifSequenceWriter(output, this.currentImage.getType(), 1000/FRAME_RATE, true);
         } catch (IOException e) {
             System.err.println("Failed to write Gif");
         }
