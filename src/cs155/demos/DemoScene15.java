@@ -42,7 +42,7 @@ public class DemoScene15 {
 	private static void initScene(AnimatedScene3D scene){
 		// Camera and canvas setup
 		GifCanvas3D mc = new GifCanvas3D("DemoScene15", 400, 350);
-		Camera3D cam = new DepthFieldCamera3D(mc, 3, 8);
+		Camera3D cam = new DepthFieldCamera3D(mc, 6, 12);
 		cam.apply(new Transform3D().translate(0, 5, 8).rotateX(15));
 		scene.add(cam);
 		
@@ -58,13 +58,13 @@ public class DemoScene15 {
 		colMat.setTexWeight(.5);
 		Cylinder3D[] leftWall = new Cylinder3D[5];
 		for (int i = 0; i < 5; i++) {
-			leftWall[i] = new Cylinder3D(new Point3D(-4, 0, 2*i-4), new Point3D(0, 1, 0), .5, 10, colMat);
+			leftWall[i] = new Cylinder3D(new Point3D(-4, 0, 2*i-4), new Point3D(0, 1, 0), .6, 10, colMat);
 			scene.add(leftWall[i]);
 		}
 		Cylinder3D[] rightWall = new Cylinder3D[5];
 		for (int i = 0; i < 5; i++) {
 			colTex.translate(Math.random()*120, Math.random()*70);
-			rightWall[i] = new Cylinder3D(new Point3D(4, 0, 2*i-4), new Point3D(0, 1, 0), .5, 10, colMat);
+			rightWall[i] = new Cylinder3D(new Point3D(4, 0, 2*i-4), new Point3D(0, 1, 0), .6, 10, colMat);
 			scene.add(rightWall[i]);
 		}
 		
@@ -110,7 +110,7 @@ public class DemoScene15 {
 		Light3D sun = new Light3D(new Point3D(0, 100, 0));
 		sun.ambient = new Color3D(0.3, 0.3, 0.35);
 		sun.intensity = .5;
-		sun.applyTrans(new Transform3D().rotateZ(70));
+		sun.applyTrans(new Transform3D().rotateZ(60));
 		scene.add(sun);
 		
 		// A mirrored Sphere
@@ -135,9 +135,9 @@ public class DemoScene15 {
 
             	
             	// Moves the sun right to left across the sky
-            	sun.applyTrans(new Transform3D().rotateZ((float)-120/totalFrames*frameSpeed));
+            	sun.applyTrans(new Transform3D().rotateZ((float)-40/totalFrames*frameSpeed));
             	// Moves the sun a little south and back (northern hemisphere
-            	double sunZshift = -5*Math.cos((double)frameNum/totalFrames*Math.PI);
+            	double sunZshift = -1*Math.cos((double)frameNum/totalFrames*Math.PI);
             	sun.applyTrans(new Transform3D().translate(0, 0, sunZshift));
             	// Brightens the sun near the beginning of the day and darkens it at the end
             	if (frameNum <= .2 * totalFrames) { // Morning
@@ -151,14 +151,14 @@ public class DemoScene15 {
                 skyTex.translate(1, -.2);
                 
                 // Move the camera into the scene
-                double distance = 9.0 * frameNum/totalFrames;
+                double distance = 6.0 * frameNum/totalFrames;
                 double leftRightAmp = 1;
                 double upDownAmp = 1;
-                cam.setTransform(new Transform3D().translate(0, 5, 8).rotateX(15)); // Start the camera here
-                Transform3D walk = new Transform3D().translate( leftRightAmp * Math.cos(distance + Math.PI/2),
-                		upDownAmp * Math.sin(Math.PI/2 - 2*distance), -distance );
-//                double t = distance * 2 * Math.PI;
-//                Transform3D walk = new Transform3D().translate(0, .5 * (1 - Math.cos(t)), -.5 * (t - Math.sin(t)));
+                cam.setTransform(new Transform3D().translate(0, 5, 8).rotateX(5)); // Start the camera here
+//                Transform3D walk = new Transform3D().translate( leftRightAmp * Math.cos(distance + Math.PI/2),
+//                		upDownAmp * Math.sin(Math.PI/2 - 2*distance), -distance );
+                double t = distance * 2.5 * Math.PI;
+                Transform3D walk = new Transform3D().translate(0, .2 * (1 - Math.cos(t)), -.2 * (t - Math.sin(t)));
                 cam.apply(walk);
                 
             	frameNum += frameSpeed;
