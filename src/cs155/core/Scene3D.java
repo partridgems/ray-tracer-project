@@ -30,7 +30,7 @@ public class Scene3D {
         setObjs(new ArrayList<>());
         setLights(new ArrayList<>());
         setReflectionDepth(2);
-        setAmbient(new Color3D(0d, 0d, 0.4d));
+        setAmbient(new Color3D(0d, 0d, 0.1d));
         setBackgroundColor(new Color3D(0d, 0d, 0.4d));
         setSceneNum(1);
 	}
