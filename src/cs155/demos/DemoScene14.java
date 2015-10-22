@@ -42,7 +42,7 @@ public class DemoScene14 {
 	private static void initScene(AnimatedScene3D scene){
 		// Camera and canvas setup
 		GifCanvas3D mc = new GifCanvas3D("DemoScene14", 750, 600);
-		Camera3D cam = new DepthFieldCamera3D(mc, 8, 10);
+		Camera3D cam = new DepthFieldCamera3D(mc, 8, 50);
 		cam.apply(new Transform3D().translate(0, 5, 8).rotateX(15));
 		scene.add(cam);
 		
@@ -141,7 +141,7 @@ public class DemoScene14 {
             	// Moves the sun right to left across the sky
             	sun.applyTrans(new Transform3D().rotateZ((float)-120/totalFrames*frameSpeed));
             	// Moves the sun a little south and back (northern hemisphere
-            	double sunZshift = -5*Math.cos((double)frameNum/totalFrames*Math.PI);
+            	double sunZshift = -4*Math.cos((double)frameNum/totalFrames*Math.PI);
             	sun.applyTrans(new Transform3D().translate(0, 0, sunZshift));
             	// Brightens the sun near the beginning of the day and darkens it at the end
             	if (frameNum <= .2 * totalFrames) { // Morning

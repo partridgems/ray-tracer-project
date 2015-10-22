@@ -28,7 +28,7 @@ public class DemoScene15 {
     
 
     public static void main(String[] args) {
-    	AnimatedScene3D scene = new AnimatedScene3D("DemoScene14"); initScene(scene);
+    	AnimatedScene3D scene = new AnimatedScene3D("DemoScene15"); initScene(scene);
     	
     	try {
 			RayTracer3D.drawAnimatedGif(scene);
@@ -41,7 +41,7 @@ public class DemoScene15 {
 
 	private static void initScene(AnimatedScene3D scene){
 		// Camera and canvas setup
-		GifCanvas3D mc = new GifCanvas3D("DemoScene14", 400, 350);
+		GifCanvas3D mc = new GifCanvas3D("DemoScene15", 400, 350);
 		Camera3D cam = new DepthFieldCamera3D(mc, 3, 8);
 		cam.apply(new Transform3D().translate(0, 5, 8).rotateX(15));
 		scene.add(cam);
@@ -141,9 +141,9 @@ public class DemoScene15 {
             	sun.applyTrans(new Transform3D().translate(0, 0, sunZshift));
             	// Brightens the sun near the beginning of the day and darkens it at the end
             	if (frameNum <= .2 * totalFrames) { // Morning
-            		sun.intensity = .6 + ((double)frameNum)/totalFrames*2;
+            		sun.intensity = .8 + ((double)frameNum)/totalFrames*1;
             	} else if (frameNum >= .8 * totalFrames) { // Evening
-            		sun.intensity = .6 + ((double)totalFrames - frameNum)/totalFrames*2;
+            		sun.intensity = .8 + ((double)totalFrames - frameNum)/totalFrames*1;
             	} else {
             		sun.intensity = 1.0;
             	}
