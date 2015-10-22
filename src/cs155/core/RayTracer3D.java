@@ -246,7 +246,6 @@ public class RayTracer3D {
 	 **/
 	public static void drawScene(Scene3D scene) {
 		double h = scene.getCamera().getFilm().height(), w = scene.getCamera().getFilm().width();
-		System.out.println("h= " + h + " w= " + w);
 		scene.setReflectionDepth(15);
 
 		// Start up THEAD_COUNT threads to do rendering and join on them
@@ -290,13 +289,17 @@ public class RayTracer3D {
 	 */
 	public static void drawAnimatedGif(AnimatedScene3D scene) throws IOException {
 		// Get the scene name for the folder
-		String sceneName = scene.getName();
+		long start = System.currentTimeMillis();
+		int frameNum = 0;
 
-        int count = 0;
 		while (scene.getAnim().hasNext()) {  //Keeps drawing the scene as long as the animator can do more.
 			drawScene(scene.getAnim().next());
+			System.out.println("     Rendered frame " + ++frameNum + ".");
 		}
         scene.done();
+        
+        long elapsed = System.currentTimeMillis() - start;
+		System.out.printf("Time to render: %.0f seconds.", (double) elapsed / 1000);
 
 	}
 
