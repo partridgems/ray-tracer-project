@@ -123,7 +123,7 @@ public class DemoScene15 {
 		scene.setAnim(new Animator3D() {    //Implemented Animator3D methods, which allows for animations.
             int frameNum = 0; 
             int totalFrames = 24*10;
-            double frameSpeed = 24;
+            double frameSpeed = 1;
 
             @Override
             public boolean hasNext() {
