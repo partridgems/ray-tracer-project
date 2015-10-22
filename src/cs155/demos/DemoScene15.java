@@ -151,12 +151,14 @@ public class DemoScene15 {
                 skyTex.translate(1, -.2);
                 
                 // Move the camera into the scene
-                double distance = 9 * frameNum/totalFrames;
+                double distance = 9.0 * frameNum/totalFrames;
                 double leftRightAmp = 1;
                 double upDownAmp = 1;
                 cam.setTransform(new Transform3D().translate(0, 5, 8).rotateX(15)); // Start the camera here
                 Transform3D walk = new Transform3D().translate( leftRightAmp * Math.cos(distance + Math.PI/2),
-                		upDownAmp * Math.sin(Math.PI/2 - 2*distance), distance );
+                		upDownAmp * Math.sin(Math.PI/2 - 2*distance), -distance );
+//                double t = distance * 2 * Math.PI;
+//                Transform3D walk = new Transform3D().translate(0, .5 * (1 - Math.cos(t)), -.5 * (t - Math.sin(t)));
                 cam.apply(walk);
                 
             	frameNum += frameSpeed;
