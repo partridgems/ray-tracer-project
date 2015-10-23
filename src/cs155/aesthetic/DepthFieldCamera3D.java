@@ -41,7 +41,10 @@ public class DepthFieldCamera3D extends Camera3D {
 	/**
 	 * Convert screen coordinates into a ray. Given doubles u,v which are both
 	 * between -1 and 1, this method then shoots a ray from a radius around the camera
-	 * out through u,v on the plane in the scene at the specified depth.
+	 * out through u,v on the plane in the scene at the specified depth. The ray goes
+	 * through the focal point in the scene--wherever the original ray would have passed
+	 * the specified focal distance. By combining many of these rays, a depth of field
+	 * blur is created.
 	 **/
 	public Ray3D generateRay(int i, int j) {
 		/*
@@ -57,30 +60,17 @@ public class DepthFieldCamera3D extends Camera3D {
 		double u = 2 * (i + xjitter - getFilm().width() / 2d) / getFilm().height();
 		double v = 2 * (k + yjitter - getFilm().height() / 2d) / getFilm().height();
 		
+		// Cast a ray to find the focal point
 		Ray3D r = new Ray3D(origin, new Point3D(u, v, SCREEN_DIST));
 		
+		// Choose a random point on the 'aperture'
 		double xblur = (Math.random() - 0.5)/aperture;
 		double yblur = (Math.random() - 0.5)/aperture;
+		
+		// Get the focal point, the blurred eye, and cast the new ray
 		Point3D focus = r.atTime(depth);
 		Point3D eye = origin.translate(yblur, xblur, 0);
 		Ray3D bluredRay = new Ray3D(eye, focus.subtract(eye));
-		
-//		// Distance from the camera out to where this ray intersects the focal plane
-//		double distanceToFocalPlane = this.depth/r.d.dot(new Point3D(0, 0, -1));
-//		
-//		// Translates the ray back to the origin(camera) to rotate it for the blur effect
-//		Transform3D backToCamera = new Transform3D().translate(r.d.scale(-distanceToFocalPlane));
-//		Transform3D fwdFromCamera = new Transform3D().translate(r.d.scale(distanceToFocalPlane));
-//		
-//		// Stochastically rotate this ray depending on distance to the focal plane
-//		double xRotate = Math.toDegrees(Math.atan( (Math.random()-.5)*aperture/depth ));
-//		double yRotate = Math.toDegrees(Math.atan( (Math.random()-.5)*aperture/depth ));
-//		Transform3D rotate = new Transform3D().rotateX(xRotate).rotateY(yRotate);
-//		
-//		// Now change the ray's direction to cause the blur
-//		Transform3D fullTransform = backToCamera.rotate.fwdFromCamera;
-
-//		r.d = fullTransform.applyTo(r.d);
 		
 		return bluredRay.applyTransform(this.getTransform());
 	}

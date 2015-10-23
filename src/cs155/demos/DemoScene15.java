@@ -17,11 +17,12 @@ import cs155.core.Scene3D;
 import cs155.core.Transform3D;
 import cs155.objects.Cylinder3D;
 import cs155.objects.Plane3D;
-import cs155.objects.Sphere3D;
 import cs155.objects.Triangle3D;
 
 /**
  * Mike's Depth of Field Demo
+ * The camera simulates walking through a small structure made of columns
+ * and a roof.
  *
  */
 public class DemoScene15 {
@@ -123,17 +124,10 @@ public class DemoScene15 {
 		sun.applyTrans(new Transform3D().rotateZ(60));
 		scene.add(sun);
 		
-		// A mirrored Sphere
-		Sphere3D sph = new Sphere3D(new Point3D(0, 2, -5), 2);
-		Material sphereMat = new Material(Color3D.BLACK, Color3D.BLACK, Color3D.WHITE, Color3D.WHITE, 400);
-		sphereMat.setReflect(1);
-		sph.setOutsideMat(sphereMat);
-//		scene.add(sph);
-		
 		scene.setAnim(new Animator3D() {    //Implemented Animator3D methods, which allows for animations.
             int frameNum = 0; 
-            int totalFrames = 24*10;
-            double frameSpeed = 1;
+            int totalFrames = 24*10;  // 10 seconds * 24 FPS
+            double frameSpeed = 1;	// Set higher to 'skip' frames to speed up rendering or animation
 
             @Override
             public boolean hasNext() {
@@ -169,8 +163,10 @@ public class DemoScene15 {
                 Transform3D walk = new Transform3D().translate( leftRightAmp * Math.cos(walkPace*distance + Math.PI/2),
                 		upDownAmp * Math.sin(Math.PI/2 - 2*walkPace*distance), -distance );
                 
+                // A different way of modeling the camera 'walking'
 //                double t = distance * 2.5 * Math.PI;
 //                Transform3D walk = new Transform3D().translate(0, .2 * (1 - Math.cos(t)), -.2 * (t - Math.sin(t)));
+                
                 cam.apply(walk);
                 
             	frameNum += frameSpeed;
