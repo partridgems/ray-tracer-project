@@ -19,6 +19,8 @@ import cs155.objects.Sphere3D;
 /**
  * This class draws cylinders and other objects.
  * In PA03 it is used to demonstrate the depth of field camera.
+ * Several background objects and one foreground sphere are out of focus.
+ * A textured cylinder in the middleground is in sharp focus.
  * @author Michael
  *
  */
@@ -95,16 +97,19 @@ public class DemoScene9 {
 		Light3D light1 = new Light3D(new Point3D(-20,22,18),.8);// this light comes from above on the left
 		Light3D light2 = new Light3D(new Point3D(30,15,55),.6); // this light is from way above the scene
 		
-		cyl2.setInsideMat(mat1); // here we change the material on the inside of cylinder 2
+		cyl2.setInsideMat(mat1);
 		
     	PngCanvas3D mc = new PngCanvas3D(800, 800);
 		Transform3D camTransf = new Transform3D();
 		// this transformation takes a few from above and to the right looking down at the cylinders
 		// comment it out to see the view from the origin..
 		camTransf = camTransf.rotateY(20).rotateX(45).translate(0,0,60);
+		
+		// Several cameras are available
 //		Camera3D cam = new Camera3D(mc,camTransf);
 //		Camera3D cam = new FisheyeCamera3D(mc, camTransf);
 		Camera3D cam = new DepthFieldCamera3D(mc, camTransf, 6, 12);
+		
 		scene.add(cyl2);
 		scene.add(cyl3);
 		scene.add(sp2);

@@ -22,6 +22,10 @@ import cs155.objects.Triangle3D;
 
 /**
  * Mike's Animation Demo
+ * The camera looks through a small structure while the sun passes overhead
+ * following a path of a location in the northern hemisphere near the equinox
+ * A mirrored sphere shows the sky behind and the shadows crossing the ground.
+ * The 'sun' brightens and darkens to simulate dawn and dusk
  *
  */
 public class DemoScene14 {
@@ -126,8 +130,8 @@ public class DemoScene14 {
 		
 		scene.setAnim(new Animator3D() {    //Implemented Animator3D methods, which allows for animations.
             int frameNum = 0; 
-            int totalFrames = 24*10;
-            double frameSpeed = 1;
+            int totalFrames = 24*10;	// 10 seconds * 24 FPS
+            double frameSpeed = 1;	// Increase to skip frames
 
             @Override
             public boolean hasNext() {
