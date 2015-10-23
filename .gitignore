@@ -21,7 +21,10 @@ hs_err_pid*
 *.png
 *.gif
 
-!images/
+!demo/*.png
+!demo/*.gif
+!images/*.png
+
 
 # IntelliJ
 *.iml
