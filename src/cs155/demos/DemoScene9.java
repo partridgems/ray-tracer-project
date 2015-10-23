@@ -34,12 +34,7 @@ public class DemoScene9 {
     public static void drawOnPNG() {
     	Scene3D scene = new Scene3D("DemoScene9");
     	initScene(scene);
-    	try {
-			RayTracer3D.drawSceneSeries(scene, 5);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    	RayTracer3D.drawScene(scene);
     	System.out.println("\nDone.");
     }
 
@@ -86,8 +81,8 @@ public class DemoScene9 {
 		Plane3D pl2 = new Plane3D(new Point3D(-50,0,0),new Point3D(1,0,0.5),mat5);
 		
 		// create the lights
-		Light3D light1 = new Light3D(new Point3D(-12,22,18),.8);// this light comes from above on the left
-		Light3D light2 = new Light3D(new Point3D(30,15,65),.6); // this light is from way above the scene
+		Light3D light1 = new Light3D(new Point3D(-20,22,18),.8);// this light comes from above on the left
+		Light3D light2 = new Light3D(new Point3D(30,15,55),.6); // this light is from way above the scene
 //		Light3D light3 = new Light3D(new Point3D(0,2,-13),1.0); // this light is near the openings of both cylinders
 //		Light3D light4 = new Light3D(new Point3D(-2,13,-4),1.0); // this light is inside cylinder 1, toward the far end
 		
@@ -97,10 +92,10 @@ public class DemoScene9 {
 		Transform3D camTransf = new Transform3D();
 		// this transformation takes a few from above and to the right looking down at the cylinders
 		// comment it out to see the view from the origin..
-		camTransf = camTransf.translate(0,0,0).rotateY(20).rotateX(45).translate(0,0,60);
+		camTransf = camTransf.rotateY(20).rotateX(45).translate(0,0,60);
 //		Camera3D cam = new Camera3D(mc,camTransf);
 //		Camera3D cam = new FisheyeCamera3D(mc, camTransf);
-		Camera3D cam = new DepthFieldCamera3D(mc, camTransf, 54, 10);
+		Camera3D cam = new DepthFieldCamera3D(mc, camTransf, 12, 10);
 //		scene.add(cyl1);
 		scene.add(cyl2);
 		scene.add(cyl3);

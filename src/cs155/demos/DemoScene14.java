@@ -41,7 +41,7 @@ public class DemoScene14 {
 
 	private static void initScene(AnimatedScene3D scene){
 		// Camera and canvas setup
-		GifCanvas3D mc = new GifCanvas3D("DemoScene14", 750/2, 600/2);
+		GifCanvas3D mc = new GifCanvas3D("DemoScene14", 750, 600);
 		Camera3D cam = new DepthFieldCamera3D(mc, 8, 50);
 		cam.apply(new Transform3D().translate(0, 5, 8).rotateX(15));
 		scene.add(cam);
