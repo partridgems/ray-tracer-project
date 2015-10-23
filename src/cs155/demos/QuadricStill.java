@@ -35,7 +35,7 @@ public class QuadricStill {
         q2.setTransform(new Transform3D().translate(-5, 5, -10).rotateX(-60d));
         q3.setTransform(new Transform3D().translate(0, 0, -10).rotateX(60d));
         Light3D light1 = new Light3D(new Point3D(5, 5, 10), 1.0);
-        PngCanvas3D mc = new PngCanvas3D(400, 400);
+        PngCanvas3D mc = new PngCanvas3D(1000, 800);
 
         // Uncomment one camera to choose which one is active
         Camera3D cam = new Camera3D(mc);
