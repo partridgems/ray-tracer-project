@@ -42,29 +42,39 @@ public class DemoScene15 {
 	private static void initScene(AnimatedScene3D scene){
 		// Camera and canvas setup
 		GifCanvas3D mc = new GifCanvas3D("DemoScene15", 400, 350);
-		Camera3D cam = new DepthFieldCamera3D(mc, 7, 10);
+		Camera3D cam = new DepthFieldCamera3D(mc, 8, 12);
 		cam.apply(new Transform3D().translate(0, 5, 8).rotateX(15));
 		scene.add(cam);
 		
 		// Columns along each side
-		Material colMat = new Material();
-		colMat.setSpecular(Color3D.WHITE);
-		colMat.setHardness(5);
-		colMat.setReflect(0);
-		colMat.setRefract(0);
-		ImageTexture colTex = new ImageTexture("images/greek_pillar.jpg");
-		colTex.scale(120, 70);
-		colMat.setTexture(colTex);
-		colMat.setTexWeight(.5);
 		Cylinder3D[] leftWall = new Cylinder3D[5];
 		for (int i = 0; i < 5; i++) {
-			leftWall[i] = new Cylinder3D(new Point3D(-4, 0, 2*i-4), new Point3D(0, 1, 0), .6, 10, colMat);
+			Material colMat = new Material();
+			colMat.setSpecular(Color3D.WHITE);
+			colMat.setHardness(5);
+			colMat.setReflect(0);
+			colMat.setRefract(0);
+			ImageTexture colTex = new ImageTexture("images/greek_pillar.jpg");
+			colTex.scale(120, 70);
+			colMat.setTexture(colTex);
+			colMat.setTexWeight(.5);
+			colTex.translate(Math.random()*1000, Math.random()*1000);
+			leftWall[i] = new Cylinder3D(new Point3D(-4, 0, 2*i-4), new Point3D(0, 1, 0), .8, 10, colMat);
 			scene.add(leftWall[i]);
 		}
 		Cylinder3D[] rightWall = new Cylinder3D[5];
 		for (int i = 0; i < 5; i++) {
-			colTex.translate(Math.random()*120, Math.random()*70);
-			rightWall[i] = new Cylinder3D(new Point3D(4, 0, 2*i-4), new Point3D(0, 1, 0), .6, 10, colMat);
+			Material colMat = new Material();
+			colMat.setSpecular(Color3D.WHITE);
+			colMat.setHardness(5);
+			colMat.setReflect(0);
+			colMat.setRefract(0);
+			ImageTexture colTex = new ImageTexture("images/greek_pillar.jpg");
+			colTex.scale(120, 70);
+			colMat.setTexture(colTex);
+			colMat.setTexWeight(.5);
+			colTex.translate(Math.random()*1000, Math.random()*1000);
+			rightWall[i] = new Cylinder3D(new Point3D(4, 0, 2*i-4), new Point3D(0, 1, 0), .8, 10, colMat);
 			scene.add(rightWall[i]);
 		}
 		
@@ -148,18 +158,19 @@ public class DemoScene15 {
             		sun.intensity = 1.0;
             	}
                 // Moves the clouds
-                skyTex.translate(1, -.2);
+                skyTex.translate(1.0/5, -.2/5);
                 
                 // Move the camera into the scene
                 cam.setTransform(new Transform3D().translate(0, 5, 8).rotateX(5)); // Start the camera here
                 double distance = 6.0 * frameNum/totalFrames;
-//                double leftRightAmp = .18;
-//                double upDownAmp = .3;
-//                double walkPace = 4;
-//                Transform3D walk = new Transform3D().translate( leftRightAmp * Math.cos(walkPace*distance + Math.PI/2),
-//                		upDownAmp * Math.sin(Math.PI/2 - 2*walkPace*distance), -distance );
-                double t = distance * 2.5 * Math.PI;
-                Transform3D walk = new Transform3D().translate(0, .2 * (1 - Math.cos(t)), -.2 * (t - Math.sin(t)));
+                double leftRightAmp = .15;
+                double upDownAmp = .25;
+                double walkPace = 4.5;
+                Transform3D walk = new Transform3D().translate( leftRightAmp * Math.cos(walkPace*distance + Math.PI/2),
+                		upDownAmp * Math.sin(Math.PI/2 - 2*walkPace*distance), -distance );
+                
+//                double t = distance * 2.5 * Math.PI;
+//                Transform3D walk = new Transform3D().translate(0, .2 * (1 - Math.cos(t)), -.2 * (t - Math.sin(t)));
                 cam.apply(walk);
                 
             	frameNum += frameSpeed;
