@@ -21,8 +21,8 @@ hs_err_pid*
 *.png
 *.gif
 
-!demo/*.png
-!demo/*.gif
+!demos/*.png
+!demos/*.gif
 !images/*.png
 
 
