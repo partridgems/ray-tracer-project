@@ -7,7 +7,7 @@ import cs155.objects.QuadricSurface;
  * This class performs some very basic tests for Fisheye Cameras
  *
  */
-public class DemoScene8 {
+public class QuadricStill {
 
     public static void main(String[] args) throws InterruptedException {
 
@@ -18,7 +18,7 @@ public class DemoScene8 {
     }
 
     public static Scene3D initScene2() {
-    	Scene3D scene = new Scene3D("DemoScene8");
+    	Scene3D scene = new Scene3D("QuadricStill");
 //        Material mat1 = new Material(Color3D.BLACK, Color3D.BLACK, Color3D.WHITE, Color3D.WHITE, 200);
 
         // Sphere

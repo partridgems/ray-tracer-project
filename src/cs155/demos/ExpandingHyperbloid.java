@@ -27,7 +27,7 @@ public class ExpandingHyperbloid {
     }
 
     public static AnimatedScene3D initScene2() {
-        AnimatedScene3D scene = new AnimatedScene3D("DemoScene8");
+        AnimatedScene3D scene = new AnimatedScene3D("QuadricStill");
 //        Material mat1 = new Material(Color3D.BLACK, Color3D.BLACK, Color3D.WHITE, Color3D.WHITE, 200);
 
         // Sphere
